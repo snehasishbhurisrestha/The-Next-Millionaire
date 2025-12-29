@@ -167,6 +167,68 @@
         margin:25px auto;  
     }
 
+
+    .thankyou-box{
+        max-width:520px;
+        margin:30px auto;
+        background: linear-gradient(135deg,#111,#000,#1f1f1f);
+        border-radius:18px;
+        padding:35px 25px;
+        text-align:center;
+        color:#fff;
+        box-shadow:0 10px 30px rgba(0,0,0,.5);
+        border:2px solid #ffd700;
+    }
+
+    .thankyou-box h3{
+        margin-bottom:10px;
+        background: linear-gradient(45deg,#ffd700,#ffae00,#fff);
+        -webkit-background-clip:text;
+        -webkit-text-fill-color:transparent;
+        font-weight:800;
+    }
+
+    .thankyou-box p{
+        font-size:16px;
+        opacity:.9;
+    }
+
+    .thankyou-box .heart{
+        font-size:32px;
+        display:block;
+        margin-top:8px;
+    }
+
+</style>
+
+<style>
+    .star-rating{
+    direction: rtl;
+    display: inline-flex;
+    gap:5px;
+}
+
+.star-rating input{
+    display:none;
+}
+
+.star-rating label{
+    font-size:34px;
+    color:#e5e0e0;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.star-rating label:hover,
+.star-rating label:hover ~ label{
+    color:#ffd700;
+    transform:scale(1.1);
+}
+
+.star-rating input:checked ~ label{
+    color:#ffd700;
+}
+
 </style>
 @endsection
 
@@ -191,7 +253,7 @@
 
                 @if($currentLesson->video_url)
                     <div style="box-shadow: 0 0 25px rgba(255,255,255,.45), 
-            0 0 60px rgba(255,255,255,.15);">
+            0 0 60px rgba(255,255,255,.15);border-radius: 10px;">
 
                     {!! $currentLesson->video_url !!}
                     </div>
@@ -267,10 +329,10 @@
     @if($is_end)
     <div class="end-lesson-box">
 
-        <h3 class="text-white mb-4">🎉 Congratulations! You’ve completed the course.</h3>
+        <h3 class="text-white mb-4" style="font-weight:800;">🎉 Congratulations! You’ve completed the course.</h3>
 
         <div class="d-flex gap-3 flex-wrap justify-content-center">
-            <a href="" class="special-btn">
+            <a href="{{ route('community') }}" class="special-btn">
                 Join Our Community
             </a>
 
@@ -280,23 +342,34 @@
         </div>
 
         {{-- ⭐ Course Review Section --}}
+        @if(!$course->reviews()->where('user_id', auth()->id())->exists())
         <div class="review-box mt-4">
-            <h4 class="text-white mb-3">✍️ Share Your Review</h4>
+            <h4 class="text-white mb-3" style="font-weight:800;">✍️ Share Your Review</h4>
 
-            <form action="" method="POST">
+            <form action="{{ route('course.review.submit', $course->id) }}" method="POST">
                 @csrf
 
-                <div class="mb-3">
-                    <label class="text-white">Rating</label>
-                    <select name="rating" class="form-control" required>
-                        <option value="">Select Rating</option>
-                        <option value="5">⭐⭐⭐⭐⭐</option>
-                        <option value="4">⭐⭐⭐⭐</option>
-                        <option value="3">⭐⭐⭐</option>
-                        <option value="2">⭐⭐</option>
-                        <option value="1">⭐</option>
-                    </select>
+                <div class="mb-3 text-center">
+                    <label class="text-white d-block mb-2">Rating</label>
+
+                    <div class="star-rating">
+                        <input type="radio" name="rating" id="star5" value="5" required>
+                        <label for="star5">★</label>
+
+                        <input type="radio" name="rating" id="star4" value="4">
+                        <label for="star4">★</label>
+
+                        <input type="radio" name="rating" id="star3" value="3">
+                        <label for="star3">★</label>
+
+                        <input type="radio" name="rating" id="star2" value="2">
+                        <label for="star2">★</label>
+
+                        <input type="radio" name="rating" id="star1" value="1">
+                        <label for="star1">★</label>
+                    </div>
                 </div>
+
 
                 <div class="mb-3">
                     <label class="text-white">Your Feedback</label>
@@ -308,6 +381,15 @@
                 </button>
             </form>
         </div>
+        @else
+        <div class="thankyou-box">
+            <h3>🎉 Thank You!</h3>
+            <p>Thanks for your beautiful review 🌟  
+            Your feedback helps us improve and motivates other learners!</p>
+
+            <span class="heart">💛</span>
+        </div>
+        @endif
 
     </div>
     @endif

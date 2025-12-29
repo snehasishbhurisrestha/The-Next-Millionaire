@@ -58,10 +58,19 @@
     <hr class="sidebar-divider">
 
     <!-- Nav Item - Dashboard -->
-    <li class="nav-item active">
+    <li class="nav-item">
         <a class="nav-link" href="{{ route('user-dashboard') }}">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <i class="fas fa-handshake"></i>
             <span>Affiliate Program</span></a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('community') }}">
+            <i class="fas fa-users"></i>
+            <span>Community</span></a>
     </li>
 
     <!-- Divider -->

@@ -30,4 +30,9 @@ class Course extends Model implements HasMedia
     {
         return $this->hasOne(Exam::class);
     }
+
+    public function reviews()
+    {
+        return $this->hasMany(CourseReview::class);
+    }
 }

@@ -52,6 +52,16 @@
             object-fit: contain;
         }
 
+        .btn-dark{
+            background:#000000 !important;
+            border-color:#000000 !important;
+            color:#fff !important;
+        }
+        .btn-dark:hover{
+            background:#111 !important;
+            border-color:#111 !important;
+        }
+
     </style>
     
     @yield('style')
