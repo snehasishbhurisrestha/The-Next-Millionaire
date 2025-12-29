@@ -92,7 +92,7 @@
 <style>
     .pdf-btn {
         display: inline-block;
-        padding: 8px 13px;
+        padding: 8px 10px;
         border-radius: 30px;
         background: #000000;
         border: 2px solid #C9A227;
@@ -128,6 +128,45 @@
         font-family: "Poppins", sans-serif;
         font-weight: 700;
     }
+</style>
+
+<style>
+    .end-lesson-box{
+        /* background:#0b1f14; */
+        padding:24px;
+        margin:35px 10px;
+        border-radius:18px;
+        box-shadow:0 10px 25px rgba(0,0,0,.4);
+        text-align:center;
+    }
+
+    .special-btn{
+        display:inline-block;
+        padding:14px 28px;
+        border-radius:50px;
+        font-weight:700;
+        color:#000;
+        background: linear-gradient(145deg,#ffd700,#ffb400,#000000);
+        text-decoration:none;
+        border:2px solid #ffea00;
+        transition:.3s;
+        margin: 10px 5px;
+    }
+
+    .special-btn:hover{
+        transform:scale(1.05);
+        background: linear-gradient(145deg,#000000,#ffb400,#ffd700);
+        color:#fff;
+    }
+
+    .review-box{
+        /* background:#111; */
+        padding:9px;
+        border-radius:15px;
+        max-width: 324px;
+        margin:25px auto;  
+    }
+
 </style>
 @endsection
 
@@ -203,13 +242,15 @@
 
 
     <!-- Navigation Buttons -->
+    @php $is_end = false; @endphp
     <div class="lesson-nav">
         @if ($prevLesson)
             <a href="{{ route('learning.page', ['course_slug' => $course->slug, 'lesson_id' => $prevLesson->id]) }}" class="btn btn-outline-primary">
                 <i class="fas fa-arrow-left"></i> Prev
             </a>
         @else
-            <span class="btn btn-secondary text-dark d-none">Prev</span>
+            {{-- <span class="btn btn-secondary text-dark">Prev</span> --}}
+            <span class="btn "></span>
         @endif
 
         @if ($nextLesson)
@@ -218,7 +259,58 @@
             </a>
         @else
             <span class="btn btn-secondary text-dark d-none">Next</span>
+            @php $is_end = true; @endphp
         @endif
     </div>
+
+    {{-- 🔥 END OF COURSE UI --}}
+    @if($is_end)
+    <div class="end-lesson-box">
+
+        <h3 class="text-white mb-4">🎉 Congratulations! You’ve completed the course.</h3>
+
+        <div class="d-flex gap-3 flex-wrap justify-content-center">
+            <a href="" class="special-btn">
+                Join Our Community
+            </a>
+
+            <a href="{{ route('user-dashboard') }}" class="special-btn">
+                Join Our Affiliate Program
+            </a>
+        </div>
+
+        {{-- ⭐ Course Review Section --}}
+        <div class="review-box mt-4">
+            <h4 class="text-white mb-3">✍️ Share Your Review</h4>
+
+            <form action="" method="POST">
+                @csrf
+
+                <div class="mb-3">
+                    <label class="text-white">Rating</label>
+                    <select name="rating" class="form-control" required>
+                        <option value="">Select Rating</option>
+                        <option value="5">⭐⭐⭐⭐⭐</option>
+                        <option value="4">⭐⭐⭐⭐</option>
+                        <option value="3">⭐⭐⭐</option>
+                        <option value="2">⭐⭐</option>
+                        <option value="1">⭐</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="text-white">Your Feedback</label>
+                    <textarea name="review" class="form-control" rows="4" placeholder="Write your thoughts..." required></textarea>
+                </div>
+
+                <button type="submit" class="special-btn w-100">
+                    Submit Review
+                </button>
+            </form>
+        </div>
+
+    </div>
+    @endif
+
 </div>
 @endsection
