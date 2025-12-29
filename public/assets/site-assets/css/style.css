@@ -614,7 +614,8 @@ form {
 .btn {
     background-color: transparent;
     color: #fff;
-    padding: 12px 20px;
+    /* padding: 12px 20px; */
+    padding: 8px 13px;
     border: none;
     border-radius: 6px;
     border: 2px solid #2f2c2c;
