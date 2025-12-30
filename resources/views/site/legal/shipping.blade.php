@@ -5,7 +5,7 @@
 @section('content')
 
     <section class="course-sell-wrapper wrap py-7">
-        <div class="container" style="margin-top: -50px;">
+        <div class="container">
             <h3 class="heading">Shipping Policy</h3>
             <p><strong>Effective Date:</strong> 2025</p>
 

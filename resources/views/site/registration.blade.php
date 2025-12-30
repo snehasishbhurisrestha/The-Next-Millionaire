@@ -60,56 +60,56 @@
 
                 <div class="form-group row mb-1">
                     <div class="col-lg-6 col-md-6">
-                        <label for="first_name">First Name</label>
+                        <label for="first_name">First Name <span class="text-danger">*</span></label>
                         <input type="text"
                                class="form-control"
                                id="first_name"
                                name="first_name"
                                value="{{ old('first_name') }}"
                                placeholder="Enter First name"
-                               style="background-color: #333; color: white; border: 1px solid #555;">
+                               style="background-color: #333; color: white; border: 1px solid #555;" required>
                     </div>
 
                     <div class="col-lg-6 col-md-6">
-                        <label for="last_name">Last Name</label>
+                        <label for="last_name">Last Name <span class="text-danger">*</span></label>
                         <input type="text"
                                class="form-control"
                                id="last_name"
                                name="last_name"
                                value="{{ old('last_name') }}"
                                placeholder="Enter Last name"
-                               style="background-color: #333; color: white; border: 1px solid #555;">
+                               style="background-color: #333; color: white; border: 1px solid #555;" required>
                     </div>
                 </div>
 
                 <div class="form-group row mb-1">
                     <div class="col-lg-6 col-md-6">
-                        <label for="email">Email</label>
+                        <label for="email">Email <span class="text-danger">*</span></label>
                         <input type="email"
                                class="form-control"
                                id="email"
                                name="email"
                                value="{{ old('email') }}"
                                placeholder="Email"
-                               style="background-color: #333; color: white; border: 1px solid #555;">
+                               style="background-color: #333; color: white; border: 1px solid #555;" required>
                     </div>
 
                     <div class="col-lg-6 col-md-6">
-                        <label for="phone">Mobile Number</label>
+                        <label for="phone">Mobile Number <span class="text-danger">*</span></label>
                         <input type="tel"
                                class="form-control"
                                id="phone"
                                name="phone"
                                value="{{ old('phone') }}"
                                placeholder="+91"
-                               style="background-color: #333; color: white; border: 1px solid #555;">
+                               style="background-color: #333; color: white; border: 1px solid #555;" required>
                     </div>
                 </div>
 
                 <div class="form-group row mb-1">
                     <div class="col-lg-6 col-md-6 position-relative">
-                        <label for="password">Password</label>
-                        <input type="password" class="form-control" id="password"
+                        <label for="password">Password <span class="text-danger">*</span></label>
+                        <input type="password" class="form-control" id="password" required
                             name="password" placeholder="Password"
                             style="background-color:#333;color:white;border:1px solid #555;">
 
@@ -117,8 +117,8 @@
                     </div>
 
                     <div class="col-lg-6 col-md-6 position-relative">
-                        <label for="confirm_password">Confirm Password</label>
-                        <input type="password" class="form-control" id="confirm_password"
+                        <label for="confirm_password">Confirm Password <span class="text-danger">*</span></label>
+                        <input type="password" class="form-control" id="confirm_password" required
                             name="password_confirmation" placeholder="Confirm Password"
                             style="background-color:#333;color:white;border:1px solid #555;">
 
@@ -183,7 +183,7 @@ let submitBtn = document.getElementById("submitBtn");
             contentType: false,
 
             success:function(response){
-                console.log(response);
+                // console.log(response);
 
                 if(response.status === 'otp_required'){
                     // alert(response.message);
@@ -204,6 +204,7 @@ let submitBtn = document.getElementById("submitBtn");
             },
 
             error:function(err){
+                submitBtn.innerText = "Submit";
                 if(err.status === 422){
                     let errors = err.responseJSON.errors;
                     let msg = '';

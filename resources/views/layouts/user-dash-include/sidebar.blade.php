@@ -46,7 +46,7 @@
                         <a class="collapse-item {{ isset($currentLesson) && $currentLesson->id == $lesson->id ? 'active' : '' }}"
                         href="{{ route('learning.page', ['course_slug' => $course->slug, 'lesson_id' => $lesson->id]) }}">
                             {{-- Step {{ $lesson->step_number }}: {{ Str::limit($lesson->title, 15) }} --}}
-                            Lesson {{ $lesson->step_number }}
+                            LESSON {{ $lesson->step_number }}
                         </a>
                     @endforeach
                 </div>
