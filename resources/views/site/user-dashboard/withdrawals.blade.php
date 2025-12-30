@@ -7,7 +7,7 @@
 <h1 class="h3 mb-2 text-gray-800" style="color: white !important;">Withdrawals</h1>
 
 <div class="mb-3">
-    <a href="{{ route('user.payment.account') }}" class="btn btn-primary btn-sm mb-2">
+    <a href="{{ route('user.payment.account') }}" class="btn btn-primary btn-sm">
         <i class="fas fa-wallet"></i> Update Payment Account
     </a>
 
@@ -98,7 +98,7 @@
                         @if(auth()->user()->upi_id)
                             UPI: {{ auth()->user()->upi_id }}
                         @else
-                            Bank: {{ auth()->user()->bank_name }} |
+                            Bank: {{ auth()->user()->account_name }} | {{ auth()->user()->bank_name }} |
                             {{ auth()->user()->account_number }} |
                             {{ auth()->user()->ifsc_code }}
                         @endif
@@ -116,8 +116,8 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button class="btn btn-success">Submit</button>
+                    <button class="btn btn-warning" data-dismiss="modal">Cancel</button>
+                    <button class="btn btn-dark">Submit</button>
                 </div>
 
             </div>
