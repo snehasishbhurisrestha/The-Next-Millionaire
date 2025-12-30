@@ -34,7 +34,7 @@
                 data-target="#collapseCourse{{ $course->id }}"
                 aria-expanded="true" aria-controls="collapseCourse{{ $course->id }}">
                 <i class="fas fa-fw fa-book"></i>
-                <span>{{ $course->title ?? 'Course' }}</span>
+                <span>{{ 'Course Module' }}</span> {{-- $course->title ?? --}}
             </a>
 
             <div id="collapseCourse{{ $course->id }}" class="collapse"
