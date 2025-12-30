@@ -7,6 +7,12 @@
 
     use App\Models\Setting;
 
+    if (!function_exists('formatPrice')) {
+        function formatPrice($price){
+            return number_format((float)$price, 0, '.', ',');
+        }
+    }
+
     if (!function_exists('get_setting')) {
         function get_setting($key = null, $media = false)
         {

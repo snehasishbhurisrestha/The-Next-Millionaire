@@ -33,6 +33,7 @@ class User extends Authenticatable implements HasMedia
         'bank_name',
         'account_number',
         'ifsc_code',
+        'account_name',
     ];
 
     /**

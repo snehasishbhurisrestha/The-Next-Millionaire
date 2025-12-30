@@ -67,6 +67,11 @@ var options = {
     "name": "The Next Millionaire",
     "description": "Course Payment",
     "order_id": "{{ $order_id }}",
+    "prefill": {
+        "name": "{{ auth()->user()->name ?? '' }}",
+        "email": "{{ auth()->user()->email ?? '' }}",
+        "contact": "{{ $phone ?? auth()->user()->phone ?? '' }}"
+    },
     "handler": function (response){
 
         $.post("{{ route('course.payment.verify') }}", {
@@ -81,6 +86,11 @@ var options = {
             window.location.href = res.redirect;
         });
 
+    },
+    "modal": {
+        "ondismiss": function(){
+            window.location.href = "{{ route('home') }}";
+        }
     },
     "theme": {
         "color": "#ddc27d"

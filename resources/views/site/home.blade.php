@@ -38,35 +38,40 @@
     .cource-description ul {
         padding: 0;
     }
+    .cource-description ul h5{
+        font-weight: 800 !important;
+        color: #f0bc4a;
+    }
     .cource-description li {
-    list-style: none;
-    position: relative;
-    padding-left: 36px;
-    text-align: left !important;
-}
+        list-style: none;
+        position: relative;
+        padding-left: 36px;
+        text-align: left !important;
+        color: #faebd7;
+    }
 
 
-.cource-description li::before{
-    content:"";
-    position:absolute;
-    left:0;
-    top:3px;
-    width:20px;
-    height:20px;
-    background:url("{{ asset('assets/site-assets/checked.png') }}") no-repeat center center;
-    background-size:contain;
-}
-.ineedblack{
-    background-color: transparent !important;
-    color: white;
-}
-.ineedblack:focus {
-    color: #f1f3f5;
-    background-color: var(--bs-body-bg);
-    border-color: #eef1f5;
-    outline: 0;
-    box-shadow: 0 0 0 .25rem rgb(123 125 129 / 25%);
-}
+    .cource-description li::before{
+        content:"";
+        position:absolute;
+        left:0;
+        top:7px;
+        width:20px;
+        height:20px;
+        background:url("{{ asset('assets/site-assets/checked.png') }}") no-repeat center center;
+        background-size:contain;
+    }
+    .ineedblack{
+        background-color: transparent !important;
+        color: white;
+    }
+    .ineedblack:focus {
+        color: #f1f3f5;
+        background-color: var(--bs-body-bg);
+        border-color: #eef1f5;
+        outline: 0;
+        box-shadow: 0 0 0 .25rem rgb(123 125 129 / 25%);
+    }
 </style>
 @endsection
 
@@ -135,12 +140,12 @@
                 <div class="col-lg-6 ">
                     <h4 class="hurry blue-second text-center mt-4" style="color: antiquewhite;" data-aos="fade-up">
                         Hurry Up! Seats Are Limited! 
-                        <p>
+                        <p style="padding-top:7px;">
                             @if($cource->offer_price)
-                                The Selling Price 
-                                <span class="price custom-strike px-2">{{ $cource->price }}/-</span>
-                                <p style="margin-top: -10px">
-                                    Offer Price <span class="offer">{{ $cource->offer_price }}/-</span> Only
+                                <span style="color: antiquewhite;">Worth</span> 
+                                <span class="price custom-strike px-2">₹{{ formatPrice($cource->price) }}/-</span>
+                                <p style="margin-top: -10px; color: antiquewhite;font-size: 21px;">
+                                    <span style="color: #f0bc4a;">Offer Price</span> <span class="offer">₹{{ formatPrice($cource->offer_price) }}/-</span> <span style="color: #f0bc4a;">Only</span>
                                 </p>
                             @else
                                 Price 
@@ -154,7 +159,7 @@
                     <div class="btnnn text-center ">
                         <button class="buy-now px-4 mb-4" data-aos="fade-up" 
                                 onclick="window.location='{{ route('registration') }}'">
-                            <p class="mt-n5" style="color: white;">Buy Now</p>
+                            <p class="mt-n5" style="color: white;">Enroll Now</p>
                         </button>
                     </div>
                     <div class="features text-center cource-description">
@@ -371,20 +376,20 @@
                 <div class="col-lg-6 col-md-12" data-aos="fade-up" data-aos-delay="500">
                     <div class="blue-second text-center">
                         <h5 class="blue-second" style="color: #97681A;">
-                            Best Courses to Become a Successful Developer
+                            Best Courses to Build a Successful Digital Business
                         </h5>
                     </div>
 
                     <div class="para text-center">
-                        Explore our premium collection of developer-focused courses designed to help you build a powerful and future-ready skillset. Whether you are just beginning your journey or already have experience, these programs provide deep understanding, strong fundamentals, and structured learning so you don’t just study concepts but truly master them with confidence.
+                        Our courses are carefully designed to provide the best learning path for building a successful digital business from the ground up. Each module focuses on essential skills such as setting up a business structure, understanding digital marketing basics, and learning proven strategies that work in today’s online world. With step-by-step guidance and actionable lessons, you will gain the confidence to turn your ideas into real results.
                     </div>
 
                     <div class="para text-center mt-3">
-                        Our courses cover essential areas like programming languages, full-stack web development, mobile applications, software engineering, and advanced technologies such as data science, AI, and cloud computing. Each module includes step-by-step guidance, real-world examples, and practical implementation so you can confidently apply your knowledge in real projects and professional environments.
+                        The Next Millionaire offers practical courses that focus on skills you can use immediately in the digital marketplace. Instead of vague theories, our training emphasizes real-world application, including social media growth strategies, content creation, and audience engagement techniques. These courses are ideal for beginners and entrepreneurs who want to build a profitable digital business that stands the test of time.
                     </div>
 
                     <div class="para text-center mt-3">
-                        Along with technical expertise, you’ll also develop strong problem-solving abilities, logical thinking, and industry-standard coding practices. With hands-on projects, portfolio building, and expert mentoring, these courses prepare you for better opportunities, high-paying jobs, freelancing success, and long-term growth in the tech industry.
+                        What makes our courses stand out is the combination of quality training and ongoing support. Along with video lessons and downloadable resources, you’ll get access to live sessions, expert feedback, and a community of learners who share your goals. This supportive ecosystem ensures you stay motivated, learn effectively, and grow consistently as you build your digital business.
                     </div>
                 </div>
             </div>

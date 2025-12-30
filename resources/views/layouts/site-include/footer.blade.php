@@ -4,8 +4,7 @@
 
             <div class="col-lg-3 text-center" style="margin-top: -40px;">
                 <img src="{{ asset('assets/site-assets/images/IMG_6469.png') }}" alt="Logo" height="30px">
-                <div class="para">A brand built with one goal — to make financial freedom simple, real, and
-                    accessible for those ready to grow.</div>
+                <div class="para">Build your digital business from scratch with zero upfront investment. Learn proven strategies, grow on social media, and take action with clear guidance.</div>
             </div>
 
             <div class="col-lg-3 pt-4">
@@ -29,9 +28,20 @@
                 <ul class="social-icon"
                     style="display: flex; gap: 10px; list-style: none; padding: 0; margin: 0; justify-content: end;">
                     {{-- <li><i class="fa-brands fa-telegram"></i></li> --}}
-                    <li><i class="fa-brands fa-whatsapp"></i></li>
                     {{-- <li><i class="fa-brands fa-facebook"></i></li> --}}
-                    <li><i class="fa-brands fa-instagram"></i></li>
+                    {{-- <li><i class="fa-brands fa-whatsapp"></i></li>
+                    <li><i class="fa-brands fa-instagram"></i></li> --}}
+                    <li>
+                        <a href="https://wa.me/+917980395623" target="_blank" style="color: #C69F4B;">
+                            <i class="fa-brands fa-whatsapp"></i>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="https://www.instagram.com/xrahulmondal?igsh=MWoxY3J1dzFhOGtmbg==" target="_blank" style="color: #C69F4B;">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                    </li>
                 </ul>
             </div>
 
