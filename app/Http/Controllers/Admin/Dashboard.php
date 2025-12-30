@@ -53,7 +53,9 @@ class Dashboard extends Controller
         if ($user->hasRole('User')) {
             return redirect()->route('user-dashboard');
         }
-        
+        if (!$user->hasRole('Super Admin')) {
+            return redirect()->route('user-dashboard');
+        }        
         $filter = request('filter','year'); // day / month / year
 
         if($filter == 'day'){
@@ -71,8 +73,11 @@ class Dashboard extends Controller
         // Totals
         $totalRevenue = $transactions->sum('amount');
 
-        $commissionPercent = config('site.commission', 20); // CHANGE IF NEEDED
-        $totalCommission = ($totalRevenue * $commissionPercent) / 100;
+        $commision = Transaction::where('status','success')
+            ->where('type','referral_commission')
+            ->where('created_at','>=',$start)
+            ->sum('amount');
+        $totalCommission = $commision;
 
         $netEarning = $totalRevenue - $totalCommission;
 
