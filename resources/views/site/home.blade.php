@@ -31,6 +31,33 @@
         border-radius: 10px;
     }
 </style>
+<style>
+    .cource-description li {
+        text-align: left !important;
+    }
+    .cource-description ul {
+        padding: 0;
+    }
+    .cource-description li {
+    list-style: none;
+    position: relative;
+    padding-left: 36px;
+    text-align: left !important;
+}
+
+
+.cource-description li::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:3px;
+    width:20px;
+    height:20px;
+    background:url("{{ asset('assets/site-assets/checked.png') }}") no-repeat center center;
+    background-size:contain;
+}
+
+</style>
 @endsection
 
 @section('content')
@@ -93,8 +120,9 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-12 ">
+            <div class="row d-flex justify-content-center">
+                {{-- <div class="col-lg-12 "> --}}
+                <div class="col-lg-6 ">
                     <h4 class="hurry blue-second text-center mt-4" style="color: antiquewhite;" data-aos="fade-up">
                         Hurry Up! Seats Are Limited! 
                         <p>
@@ -119,7 +147,7 @@
                             <p class="mt-n5" style="color: white;">Buy Now</p>
                         </button>
                     </div>
-                    <div class="features text-center">
+                    <div class="features text-center cource-description">
                         {!! $cource->description !!}
                     </div>
 
@@ -132,20 +160,20 @@
         <h3>
             <div class="marquee-wrapper">
                 <div class="marquee-title">
-                    Becoming the <span class="text-stroke-black">Next Millionaire</span>
-                    &amp; offers financial freedom,
-                    <span class="text-stroke-black">global influence,</span> We think
-                    <span class="text-stroke-black"> and the ability to drive change</span>
-                    &amp; through business and philanthropy.
-                    <span class="text-stroke-black">It opens doors to luxury,</span>
+                    A complete digital business system with <span class="text-stroke-black">zero investment,</span>
+                    proven growth strategies, expert training, community support,
+                    and <span class="text-stroke-black">lifetime access.</span>
                 </div>
-                <div class="marquee-title">
-                    innovation, <span class="text-stroke-black">and lasting legacy.</span>
 
+                <div class="marquee-title">
+                    A complete digital business system with <span class="text-stroke-black">zero investment,</span>
+                    proven growth strategies, expert training, community support,
+                    and <span class="text-stroke-black">lifetime access.</span>
                 </div>
             </div>
         </h3>
     </section>
+
 
 
     {{-- <section>
@@ -229,45 +257,124 @@
                     <div class="questions-container">
                         <div class="question" data-aos="fade-up" data-aos-delay="100">
                             <button class="faq-toggle">
-                                <span>How can I become a millionaire as a developer?</span>
+                                <span>Is this training suitable for beginners?</span>
                                 <i class="fas fa-chevron-down d-arrow"></i>
                             </button>
-                            <p class="answer">To become a millionaire as a developer, focus on mastering high-demand skills, building scalable projects, and looking for opportunities in startups, freelance, or creating your own tech company. Additionally, passive income through coding-related content, such as courses or YouTube channels, can also help grow wealth.</p>
+                            <p class="answer">
+                                Yes. This program is 100% beginner-friendly. No prior experience or technical skills are required.
+                            </p>
                         </div>
 
-                    <div class="question" data-aos="fade-up" data-aos-delay="200">
+                        <div class="question" data-aos="fade-up" data-aos-delay="150">
                             <button class="faq-toggle">
-                                <span>What are the best side hustles for developers?</span>
+                                <span>Do I really need zero investment to start?</span>
                                 <i class="fas fa-chevron-down d-arrow"></i>
                             </button>
-                            <p class="answer">Some popular side hustles include freelance web development, creating and selling digital products (themes, plugins), developing mobile apps, and contributing to open-source projects. Consulting or mentoring other developers is another way to earn extra income while sharing your expertise.</p>
+                            <p class="answer">
+                                Yes. You will learn how to start a digital business without any upfront investment using free tools and proven strategies.
+                            </p>
                         </div>
 
-                        <!-- FAQ 3 -->
+                        <div class="question" data-aos="fade-up" data-aos-delay="200">
+                            <button class="faq-toggle">
+                                <span>What format is the training provided in?</span>
+                                <i class="fas fa-chevron-down d-arrow"></i>
+                            </button>
+                            <p class="answer">
+                                The training includes pre-recorded video lessons, along with eBooks and PDF resources for easy learning.
+                            </p>
+                        </div>
+
+                        <div class="question" data-aos="fade-up" data-aos-delay="250">
+                            <button class="faq-toggle">
+                                <span>Will I get live support?</span>
+                                <i class="fas fa-chevron-down d-arrow"></i>
+                            </button>
+                            <p class="answer">
+                                Yes. You will get access to weekly live sessions where you can interact, ask questions, and learn with the community.
+                            </p>
+                        </div>
+
                         <div class="question" data-aos="fade-up" data-aos-delay="300">
                             <button class="faq-toggle">
-                                <span>What are the most lucrative programming languages to learn?</span>
+                                <span>What is VIP community access?</span>
                                 <i class="fas fa-chevron-down d-arrow"></i>
                             </button>
-                            <p class="answer">Languages like Python, Go, Rust, and Kotlin tend to offer higher-paying opportunities, especially in fields such as machine learning, system programming, and mobile app development. JavaScript and its related frameworks (React, Node.js) remain in high demand for web development.</p>
+                            <p class="answer">
+                                VIP community is a private group where you can connect with other learners, get support, updates, and motivation.
+                            </p>
                         </div>
 
-                        <!-- FAQ 4 -->
-                        <div class="question" data-aos="fade-up" data-aos-delay="400">
+                        <div class="question" data-aos="fade-up" data-aos-delay="350">
                             <button class="faq-toggle">
-                                <span>How can I scale my freelance career in tech?</span>
+                                <span>Is there any earning opportunity?</span>
                                 <i class="fas fa-chevron-down d-arrow"></i>
                             </button>
-                            <p class="answer">Scaling your freelance career involves building a personal brand, offering niche services, increasing rates as you gain experience, and outsourcing or collaborating with other professionals. Networking and maintaining strong client relationships will help sustain long-term growth.</p>
+                            <p class="answer">
+                                Yes. You will get access to an affiliate program, allowing you to earn by promoting our products.
+                            </p>
                         </div>
+
+                        <div class="question" data-aos="fade-up" data-aos-delay="400">
+                            <button class="faq-toggle">
+                                <span>How long will I have access to the course?</span>
+                                <i class="fas fa-chevron-down d-arrow"></i>
+                            </button>
+                            <p class="answer">
+                                You get lifetime access, including all future updates—no extra charges.
+                            </p>
+                        </div>
+
+                        <div class="question" data-aos="fade-up" data-aos-delay="450">
+                            <button class="faq-toggle">
+                                <span>Can I learn at my own pace?</span>
+                                <i class="fas fa-chevron-down d-arrow"></i>
+                            </button>
+                            <p class="answer">
+                                Absolutely. Since the lessons are pre-recorded, you can learn anytime, anywhere, at your own speed.
+                            </p>
+                        </div>
+
+                        <div class="question" data-aos="fade-up" data-aos-delay="500">
+                            <button class="faq-toggle">
+                                <span>Is this available only in India?</span>
+                                <i class="fas fa-chevron-down d-arrow"></i>
+                            </button>
+                            <p class="answer">
+                                This program is designed mainly for the Indian market, but anyone can join from anywhere.
+                            </p>
+                        </div>
+
+                        <div class="question" data-aos="fade-up" data-aos-delay="550">
+                            <button class="faq-toggle">
+                                <span>How do I get access after purchase?</span>
+                                <i class="fas fa-chevron-down d-arrow"></i>
+                            </button>
+                            <p class="answer">
+                                You will receive instant access to the training and resources right after successful payment.
+                            </p>
+                        </div>
+
                     </div>
                 </div>
+
                 <div class="col-lg-6 col-md-12" data-aos="fade-up" data-aos-delay="500">
                     <div class="blue-second text-center">
-                        <h5 class="blue-second" style="color: #97681A;">Best Courses to Become a Successful Developer</h5>
+                        <h5 class="blue-second" style="color: #97681A;">
+                            Best Courses to Become a Successful Developer
+                        </h5>
                     </div>
+
                     <div class="para text-center">
-                        Explore our curated selection of top-rated courses designed to help you master the skills needed to thrive in the tech industry. Whether you're a beginner or looking to advance your career, our expert-led courses cover everything from programming languages and web development to data science and machine learning. Start your journey to becoming a successful developer today!
+                        Explore our premium collection of developer-focused courses designed to help you build a powerful and future-ready skillset. Whether you are just beginning your journey or already have experience, these programs provide deep understanding, strong fundamentals, and structured learning so you don’t just study concepts but truly master them with confidence.
+                    </div>
+
+                    <div class="para text-center mt-3">
+                        Our courses cover essential areas like programming languages, full-stack web development, mobile applications, software engineering, and advanced technologies such as data science, AI, and cloud computing. Each module includes step-by-step guidance, real-world examples, and practical implementation so you can confidently apply your knowledge in real projects and professional environments.
+                    </div>
+
+                    <div class="para text-center mt-3">
+                        Along with technical expertise, you’ll also develop strong problem-solving abilities, logical thinking, and industry-standard coding practices. With hands-on projects, portfolio building, and expert mentoring, these courses prepare you for better opportunities, high-paying jobs, freelancing success, and long-term growth in the tech industry.
                     </div>
                 </div>
             </div>
@@ -287,9 +394,8 @@
                     <div class="owl-carousel owl-carousel1 owl-theme">
                         @foreach ($testimonials as $testimonial)
                         <div class="item">
-
                             <h5>{{ $testimonial->name }}</h5>
-                            <p>"{{ strip_tags($testimonial->message) }}"</p>
+                            <p>"{{ str_replace('&nbsp;', ' ', strip_tags($testimonial->message)) }}"</p>
                             <div class="rating">
                                 @for ($i = 1; $i <= $testimonial->rating; $i++)
                                     <span>⭐</span>
@@ -314,26 +420,47 @@
             <div class="row">
                 <div class="col-lg-6 pt-4" data-aos="fade">
                     <div class="company-details">
-                        <h5 class="blue-second pt-2">Company Details</h5>
+                        <h5 class="blue-second pt-2">About Us</h5>
 
                         <p class="para pt-1" style="color:#A1A2B1; line-height:22px;">
-                            Empowering Ambitions,<br>
-                            Creating Opportunities,<br>
-                            Building Tomorrow’s Millionaires
+                            <strong>Brand Name:</strong> The Next Millionaire <br>
+                            <strong>Founder:</strong> Rahul Mondal <br>
+                            <strong>Type:</strong> Digital Education & Online Training Platform
                         </p>
 
-                        <div class="para pt-2"><strong>Emails : </strong>
-                            <span>{{ get_setting('email_1') }}</span>
+                        <p class="para pt-1" style="color:#A1A2B1; line-height:22px;">
+                            <strong>Services:</strong><br>
+                            Digital business training, social media growth education, and online learning programs.
+                        </p>
+
+                        <p class="para pt-1" style="color:#A1A2B1; line-height:22px;">
+                            <strong>Access Type:</strong> Digital products & online training programs <br>
+                            <strong>Operating Region:</strong> India (Global Access Available)
+                        </p>
+
+
+                        <h5 class="blue-second pt-3">Contact Us</h5>
+                        <div class="para pt-1">
+                            <strong>Email:</strong> help.thenextmillionaire@gmail.com <br>
+                            <span style="color:#A1A2B1;">We usually respond within 24–48 hours.</span>
                         </div>
 
-                        <div class="para pt-2"><strong>Phone : </strong>
-                            <span>{{ get_setting('contact_phone_1') }}</span>
+                        <div class="para pt-2">
+                            <strong>Support Email :</strong> <span>{{ get_setting('email_1') }}</span>
+                        </div>
+
+                        <div class="para pt-2">
+                            <strong>Phone :</strong> <span>{{ get_setting('contact_phone_1') }}</span>
                         </div>
                     </div>
                 </div>
 
 
-                <div class="col-lg-6" data-aos="fade">
+                <div class="col-lg-6 mt-4" data-aos="fade">
+                    <p class="para pt-1" style="color:#A1A2B1; line-height:22px;">
+                        If you have any questions, need support, or require more information, feel free to reach out to us.
+We’re here to help you.
+                    </p>
                     <form action="{{ route('contact.store') }}" method="POST">
                         @csrf
                         <div class="mb-2">
