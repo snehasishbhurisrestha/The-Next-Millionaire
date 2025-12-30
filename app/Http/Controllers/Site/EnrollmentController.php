@@ -12,6 +12,8 @@ use App\Models\Enrollment;
 use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PaymentSuccessMail;
 
 class EnrollmentController extends Controller
 {
@@ -138,6 +140,9 @@ class EnrollmentController extends Controller
 
             $user->status = 1;
             $user->update();
+
+            // Send Email
+            Mail::to($user->email)->send(new PaymentSuccessMail($user, $course, $transaction));
 
             // return redirect()->route('course.learn', $course->slug)
             //     ->with('success', 'Payment successful! You are now enrolled.');

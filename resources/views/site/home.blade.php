@@ -56,7 +56,17 @@
     background:url("{{ asset('assets/site-assets/checked.png') }}") no-repeat center center;
     background-size:contain;
 }
-
+.ineedblack{
+    background-color: transparent !important;
+    color: white;
+}
+.ineedblack:focus {
+    color: #f1f3f5;
+    background-color: var(--bs-body-bg);
+    border-color: #eef1f5;
+    outline: 0;
+    box-shadow: 0 0 0 .25rem rgb(123 125 129 / 25%);
+}
 </style>
 @endsection
 
@@ -440,18 +450,19 @@
 
 
                         <h5 class="blue-second pt-3">Contact Us</h5>
-                        <div class="para pt-1">
+                        {{-- <div class="para pt-1">
                             <strong>Email:</strong> help.thenextmillionaire@gmail.com <br>
+                            <span style="color:#A1A2B1;">We usually respond within 24–48 hours.</span>
+                        </div> --}}
+
+                        <div class="para pt-2">
+                            <strong>Email :</strong> <span>{{ get_setting('email_1') }}</span><br>
                             <span style="color:#A1A2B1;">We usually respond within 24–48 hours.</span>
                         </div>
 
-                        <div class="para pt-2">
-                            <strong>Support Email :</strong> <span>{{ get_setting('email_1') }}</span>
-                        </div>
-
-                        <div class="para pt-2">
+                        {{-- <div class="para pt-2">
                             <strong>Phone :</strong> <span>{{ get_setting('contact_phone_1') }}</span>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
 
@@ -465,15 +476,15 @@ We’re here to help you.
                         @csrf
                         <div class="mb-2">
                             <label for="name" class="form-label">Your Name</label>
-                            <input type="text" class="form-control1" id="name" name="name" value="{{ old('name') }}" required>
+                            <input type="text" class="form-control ineedblack" id="name" name="name" value="{{ old('name') }}" required>
                         </div>
                         <div class="mb-2">
                             <label for="email" class="form-label">Your Email</label>
-                            <input type="email" class="form-control1" id="email" name="email" value="{{ old('email') }}" required>
+                            <input type="email" class="form-control ineedblack" id="email" name="email" value="{{ old('email') }}" required>
                         </div>
                         <div class="mb-2">
                             <label for="message" class="form-label">Message</label>
-                            <textarea class="form-control" id="message" name="message" rows="5" required>{{ old('message') }}</textarea>
+                            <textarea class="form-control ineedblack" id="message" name="message" rows="5" required>{{ old('message') }}</textarea>
                         </div>
                         <button type="submit" class="btn">Send Message</button>
                     </form>

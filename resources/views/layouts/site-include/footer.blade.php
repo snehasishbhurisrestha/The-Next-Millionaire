@@ -28,9 +28,9 @@
                     financial goals through education and innovative solutions.</h2>
                 <ul class="social-icon"
                     style="display: flex; gap: 10px; list-style: none; padding: 0; margin: 0; justify-content: end;">
-                    <li><i class="fa-brands fa-telegram"></i></li>
+                    {{-- <li><i class="fa-brands fa-telegram"></i></li> --}}
                     <li><i class="fa-brands fa-whatsapp"></i></li>
-                    <li><i class="fa-brands fa-facebook"></i></li>
+                    {{-- <li><i class="fa-brands fa-facebook"></i></li> --}}
                     <li><i class="fa-brands fa-instagram"></i></li>
                 </ul>
             </div>
