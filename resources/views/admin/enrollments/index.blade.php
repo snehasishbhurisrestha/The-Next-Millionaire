@@ -2,6 +2,18 @@
 
 @section('title','Enrollments')
 
+@section('style')
+<style>
+    td.review-full {
+        white-space: normal !important;
+        word-wrap: break-word;
+        word-break: break-word;
+        max-width: 450px; /* optional, can remove if you want full width */
+    }
+
+</style>
+@endsection
+
 @section('content')
 
 <div class="section-body">
@@ -35,6 +47,8 @@
                             <th>Course</th>
                             <th>Status</th>
                             <th>Date</th>
+                            <th>Rating</th>
+                            <th>Review</th>
                             <th>Action</th>
                         </tr>
                         </thead>
@@ -47,6 +61,7 @@
                             <td>
                                 {{ $en->user->name ?? '-' }} <br>
                                 <small>{{ $en->user->email ?? '' }}</small>
+                                {{ $en->user->id ?? '-' }}
                             </td>
 
                             <td>{{ $en->course->title ?? '-' }}</td>
@@ -58,6 +73,40 @@
                             </td>
 
                             <td>{{ $en->created_at->format('d M Y') }}</td>
+
+                            @php
+                                $review = null;
+
+                                if($en->course) {
+                                    $review = $en->course->reviews
+                                        ->where('user_id', $en->user_id)
+                                        ->first();
+                                }
+                            @endphp
+
+                            <td>
+                                @if($review)
+                                    @for($i = 1; $i <= 5; $i++)
+                                        @if($i <= $review->rating)
+                                            <i class="fa fa-star text-warning"></i>
+                                        @else
+                                            <i class="fa fa-star text-secondary"></i>
+                                        @endif
+                                    @endfor
+                                @else
+                                    N/A
+                                @endif
+                            </td>
+
+
+                            <td class="review-full">
+                                @if($review)
+                                {{ $review->review }}
+                                @else
+                                N/A
+                                @endif
+                            </td>
+
 
                             <td>
                                 <a href="{{ route('admin.enrollments.show',$en->id) }}" class="btn btn-info btn-sm">

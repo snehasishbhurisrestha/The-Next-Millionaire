@@ -34,6 +34,7 @@
             <button name="filter" value="day" class="btn btn-info">Today</button>
             <button name="filter" value="month" class="btn btn-primary">This Month</button>
             <button name="filter" value="year" class="btn btn-success">This Year</button>
+            <button name="filter" value="previous_year" class="btn btn-success">Previous Year</button>
         </form>
 
         <br>
@@ -82,6 +83,30 @@
                     <div class="card-body ribbon text-center">
                         <h3 class="mb-0">{{ $referrals ?? 0 }}</h3>
                         <span>Total Referrals</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-xl-3">
+                <div class="card">
+                    <div class="card-body ribbon text-center">
+                        <h3 class="mb-0">{{ $total_user ?? 0 }}</h3>
+                        <span>Total User</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-xl-3">
+                <div class="card">
+                    <div class="card-body ribbon text-center">
+                        <h3 class="mb-0">{{ $today_total_user ?? 0 }}</h3>
+                        <span>Today Registered</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-xl-3">
+                <div class="card">
+                    <div class="card-body ribbon text-center">
+                        <h3 class="mb-0">{{ $today_elrolled_total_user ?? 0 }}</h3>
+                        <span>Course Purchased Today</span>
                     </div>
                 </div>
             </div>

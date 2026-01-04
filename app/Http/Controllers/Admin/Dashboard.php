@@ -62,13 +62,31 @@ class Dashboard extends Controller
             $start = Carbon::today();
         } elseif($filter == 'month'){
             $start = Carbon::now()->startOfMonth();
-        } else {
+        // } else {
+        //     $start = Carbon::now()->startOfYear();
+        // }
+        } elseif($filter == 'year'){
             $start = Carbon::now()->startOfYear();
+        } elseif($filter == 'previous_year'){
+            $start = Carbon::now()->subYear()->startOfYear();
+            $end   = Carbon::now()->subYear()->endOfYear();
         }
 
         $transactions = Transaction::where('status','success')
             ->where('created_at','>=',$start)
             ->get();
+
+        $total_user = User::role('User')
+            ->where('created_at', '>=', $start)
+            ->count();
+        $today_total_user = User::role('User')
+            ->whereDate('created_at', '>=', date('Y-m-d'))
+            ->count();
+
+        $today_elrolled_total_user = User::role('User')
+            ->whereDate('created_at', '>=', date('Y-m-d'))
+            ->where('status',1)
+            ->count();
 
         // Totals
         $totalRevenue = $transactions->sum('amount');
@@ -115,7 +133,10 @@ class Dashboard extends Controller
             'labels',
             'data',
             'pieLabels',
-            'pieData'
+            'pieData',
+            'total_user',
+            'today_total_user',
+            'today_elrolled_total_user'
         ));
     }
 }
