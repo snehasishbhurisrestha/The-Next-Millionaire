@@ -207,12 +207,24 @@ class RegistrationController extends Controller
 
         $price = $course->offer_price != 0 ? $course->offer_price : $course->price;
 
+        // $order = $api->order->create([
+        //     'receipt' => 'order_'.$user->id,
+        //     'amount' => $price * 100,
+        //     'currency' => 'INR',
+        //     'payment_capture' => 1
+        // ]);
+
         $order = $api->order->create([
-            'receipt' => 'order_'.$user->id,
+            'receipt' => 'order_'.$user->id.'_'.$course->id,
             'amount' => $price * 100,
             'currency' => 'INR',
-            'payment_capture' => 1
+            'payment_capture' => 1,
+            'notes' => [
+                'user_id'   => $user->id,
+                'course_id' => $course->id
+            ]
         ]);
+
 
         // return response()->json([
         //     'user'=>$user,

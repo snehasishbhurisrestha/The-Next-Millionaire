@@ -462,12 +462,9 @@
 
                         <div class="para pt-2">
                             <strong>Email :</strong> <span>{{ get_setting('email_1') }}</span><br>
+                            <strong>WhatsApp :</strong> <span>{{ get_setting('contact_phone_1') }}</span><br>
                             <span style="color:#A1A2B1;">We usually respond within 24–48 hours.</span>
                         </div>
-
-                        {{-- <div class="para pt-2">
-                            <strong>Phone :</strong> <span>{{ get_setting('contact_phone_1') }}</span>
-                        </div> --}}
                     </div>
                 </div>
 

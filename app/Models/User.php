@@ -96,4 +96,59 @@ class User extends Authenticatable implements HasMedia
     {
         return $this->hasMany(ExamAttempt::class);
     }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Community Messages
+    |--------------------------------------------------------------------------
+    */
+    public function communityMessages(): HasMany
+    {
+        return $this->hasMany(CommunityMessage::class);
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Private Chats (Sender & Receiver)
+    |--------------------------------------------------------------------------
+    */
+    public function sentChats(): HasMany
+    {
+        return $this->hasMany(PrivateChat::class, 'sender_id');
+    }
+
+    public function receivedChats(): HasMany
+    {
+        return $this->hasMany(PrivateChat::class, 'receiver_id');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Private Messages
+    |--------------------------------------------------------------------------
+    */
+    public function privateMessages(): HasMany
+    {
+        return $this->hasMany(PrivateMessage::class);
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Helpers
+    |--------------------------------------------------------------------------
+    */
+    public function isChatBlockedWith($userId): bool
+    {
+        return PrivateChat::where(function ($q) use ($userId) {
+                $q->where('sender_id', $this->id)
+                  ->where('receiver_id', $userId);
+            })
+            ->orWhere(function ($q) use ($userId) {
+                $q->where('sender_id', $userId)
+                  ->where('receiver_id', $this->id);
+            })
+            ->where('status', 'blocked')
+            ->exists();
+    }
 }

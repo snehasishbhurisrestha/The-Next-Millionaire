@@ -30,8 +30,14 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/course/{course}/review', [CourseReviewController::class, 'store'])->name('course.review.submit');
 
-    Route::get('/community', [CommunityController::class,'index'])
-        ->name('community');
+    Route::get('/community', [CommunityController::class,'index'])->name('community');
+
+    Route::post('/community/send',[CommunityController::class,'sendCommunity'])->name('community.send');
+    Route::post('/community/edit/{id}',[CommunityController::class,'editCommunity']);
+
+    Route::get('/community/chat/request/{id}',[CommunityController::class,'requestChat']);
+    Route::post('/community/chat/{id}/status',[CommunityController::class,'updateChatStatus']);
+    Route::post('/community/chat/{id}/send',[CommunityController::class,'sendPrivate']);
 });
 
 Route::get('/r/{encoded}', [HomeController::class, 'redirectSponsor'])->name('referral.link');

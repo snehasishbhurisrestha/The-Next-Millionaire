@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RazorpayWebhookController;
+
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Admin\{
@@ -42,6 +44,9 @@ use App\Http\Controllers\Site\{
 };
 
 use KalynaSolutions\LaravelTus\Http\Controllers\TusController;
+
+Route::post('/razorpay/webhook', [RazorpayWebhookController::class, 'handle']);
+
 
 Route::any('/tus/{any?}', [TusController::class, 'serve'])
     ->where('any', '.*');

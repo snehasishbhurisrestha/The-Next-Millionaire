@@ -60,45 +60,45 @@
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
 <script>
-var options = {
-    "key": "{{ $razorpay_key }}",
-    "amount": "{{ $amount }}",
-    "currency": "{{ $currency }}",
-    "name": "The Next Millionaire",
-    "description": "Course Payment",
-    "order_id": "{{ $order_id }}",
-    "prefill": {
-        "name": "{{ auth()->user()->name ?? '' }}",
-        "email": "{{ auth()->user()->email ?? '' }}",
-        "contact": "{{ $phone ?? auth()->user()->phone ?? '' }}"
-    },
-    "handler": function (response){
+    var options = {
+        "key": "{{ $razorpay_key }}",
+        "amount": "{{ $amount }}",
+        "currency": "{{ $currency }}",
+        "name": "The Next Millionaire",
+        "description": "Course Payment",
+        "order_id": "{{ $order_id }}",
+        "prefill": {
+            "name": "{{ auth()->user()->name ?? '' }}",
+            "email": "{{ auth()->user()->email ?? '' }}",
+            "contact": "{{ $phone ?? auth()->user()->phone ?? '' }}"
+        },
+        "handler": function (response){
 
-        $.post("{{ route('course.payment.verify') }}", {
-            _token: "{{ csrf_token() }}",
-            razorpay_payment_id: response.razorpay_payment_id,
-            razorpay_order_id: response.razorpay_order_id,
-            razorpay_signature: response.razorpay_signature,
-            course_id : "{{ $course_id }}"
-        }, function(res){
-            showToast('success', 'Success', 'Payment Successful!');
-            // window.location.href = "{{ route('dashboard') }}";
-            window.location.href = res.redirect;
-        });
+            $.post("{{ route('course.payment.verify') }}", {
+                _token: "{{ csrf_token() }}",
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_signature: response.razorpay_signature,
+                course_id : "{{ $course_id }}"
+            }, function(res){
+                showToast('success', 'Success', 'Payment Successful!');
+                // window.location.href = "{{ route('dashboard') }}";
+                window.location.href = res.redirect;
+            });
 
-    },
-    "modal": {
-        "ondismiss": function(){
-            window.location.href = "{{ route('home') }}";
+        },
+        "modal": {
+            "ondismiss": function(){
+                window.location.href = "{{ route('home') }}";
+            }
+        },
+        "theme": {
+            "color": "#ddc27d"
         }
-    },
-    "theme": {
-        "color": "#ddc27d"
-    }
-};
+    };
 
-var rzp = new Razorpay(options);
-rzp.open();
+    var rzp = new Razorpay(options);
+    rzp.open();
 </script>
 
 @endsection

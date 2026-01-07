@@ -24,6 +24,8 @@
     <link href="{{ asset('assets/admin-assets/plugins/toast/toastr.css') }}" rel="stylesheet" type="text/css" />
     <!-- Toast message -->
 
+    @vite(['resources/js/app.js'])
+
     <style>
         .logo-img{
             width: 100%;
@@ -185,7 +187,6 @@
 
     <!-- Page level custom scripts -->
     <script src="{{ asset('assets/user-admin-assets/js/demo/datatables-demo.js') }}"></script>
-
 
     @yield('script')
 </body>
