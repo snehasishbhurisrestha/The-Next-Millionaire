@@ -77,9 +77,16 @@
         border-radius:50%;
         background:#334155;
         margin-right:10px;
+        overflow: hidden;
     }
     .message-row.me .avatar{
         display:none;
+    }
+
+    .avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
 
     /* INPUT */
@@ -114,6 +121,13 @@
         padding:12px;
         border-bottom:1px solid #1e293b;
     }
+    .member-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+    }
 </style>
 @endsection
 
@@ -125,8 +139,8 @@
     <!-- TABS -->
     <div class="community-tabs">
         <div class="community-tab active" onclick="switchTab('community')">Community</div>
+        <div class="community-tab" onclick="switchTab('requests')">Messages</div>
         <div class="community-tab" onclick="switchTab('members')">Members</div>
-        <div class="community-tab" onclick="switchTab('requests')">Requests</div>
     </div>
 
     <!-- COMMUNITY CHAT -->
@@ -143,12 +157,15 @@
                 <div class="message-row {{ $msg->user_id == auth()->id() ? 'me' : '' }}">
                     
                     @if($msg->user_id != auth()->id())
-                        <div class="avatar"></div>
+                        <div class="avatar" onclick="openPrivateChat({{ $msg->user->id }})"  style="cursor:pointer">
+                            <img src="{{ $msg->user->getFirstMediaUrl('user-image') ?: asset('assets/user-admin-assets/img/default-user.png') }}">
+                        </div>
                     @endif
+
 
                     <div class="message-bubble">
                         @if($msg->user_id != auth()->id())
-                            <div class="message-user">{{ $msg->user->name }}</div>
+                            <div class="message-user" onclick="openPrivateChat({{ $msg->user->id }})"  style="cursor:pointer">{{ $msg->user->name }}</div>
                         @endif
                         {!! $msg->message !!}
                     </div>
@@ -164,21 +181,30 @@
 
     </div>
 
-    <!-- MEMBERS -->
-    <div id="tab-members" class="community-content">
+    <div id="private-chat-box" class="community-content">
+        <!-- Private chat will load here -->
+    </div>
 
+    <!-- MEMBERS -->
+    <div id="tab-members" class="community-content chat-area">
+
+    </div>
+
+
+    <!-- REQUESTS -->
+    <div id="tab-requests" class="community-content">
         @forelse($chats as $chat)
             @php
                 $user = $chat->otherUser();
                 $lastMsg = $chat->messages->first();
             @endphp
 
-            <div class="member-item" onclick="openChat({{ $chat->id }})">
+            <div class="member-item" onclick="openPrivateChat({{ $user->id }})">
 
                 <div style="display:flex;gap:10px;align-items:center">
-                    <img src="{{ $user->profile_image ?? asset('assets/default-avatar.png') }}"
-                        class="rounded-circle"
-                        width="40" height="40">
+                    <div class="avatar">
+                        <img src="{{ $msg->user->getFirstMediaUrl('user-image') ?: asset('assets/user-admin-assets/img/default-user.png') }}">
+                    </div>
 
                     <div>
                         <div style="font-weight:600">{{ $user->name }}</div>
@@ -199,35 +225,6 @@
                 No chats yet
             </div>
         @endforelse
-
-    </div>
-
-
-    <!-- REQUESTS -->
-    <div id="tab-requests" class="community-content">
-        @if($requests->count())
-            @foreach($requests as $req)
-                <div class="member-item">
-                    <span>{{ $req->sender->name }}</span>
-
-                    <div>
-                        <button class="btn btn-success btn-sm"
-                            onclick="updateChatStatus({{ $req->id }}, 'accepted')">
-                            Accept
-                        </button>
-
-                        <button class="btn btn-danger btn-sm"
-                            onclick="updateChatStatus({{ $req->id }}, 'blocked')">
-                            Block
-                        </button>
-                    </div>
-                </div>
-            @endforeach
-        @else
-            <div class="p-3 text-muted text-center">
-                No requests yet
-            </div>
-        @endif
     </div>
 
 </div>
@@ -236,6 +233,45 @@
 
 
 @section('script')
+<script>
+window.onload = function () {
+    const chatMessages = document.getElementById('chatMessages'); // use your actual ID
+    if (chatMessages) {
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+};
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    fetch('/community/members')
+        .then(response => response.json())
+        .then(data => {
+            if (data.status) {
+                let container = document.getElementById('tab-members');
+                container.innerHTML = '';
+
+                data.members.forEach(member => {
+                    let avatar = member.avatar && member.avatar !== 'null'
+                        ? member.avatar
+                        : '/assets/user-admin-assets/img/default-user.png';
+
+                    container.innerHTML += `
+                        <div class="member-row">
+                            <div class="avatar" onclick="openPrivateChat(${member.id})" style="cursor:pointer">
+                                <img src="${avatar}">
+                            </div>
+                            <span class="member-name" onclick="openPrivateChat(${member.id})" style="cursor:pointer">
+                                ${member.name}
+                            </span>
+                        </div>
+                    `;
+                });
+            }
+        });
+});
+</script>
+
+
 <script>
 function switchTab(tab){
     document.querySelectorAll('.community-tab').forEach(t=>t.classList.remove('active'));
@@ -321,9 +357,9 @@ function requestChat(id){
 
             chatMessages.innerHTML += `
                 <div class="message-row">
-                    <div class="avatar"></div>
+                    <div class="avatar" onclick="openPrivateChat({{ $msg->user->id }})"  style="cursor:pointer"><img src="${e.message.avatar}"></div>
                     <div class="message-bubble">
-                        <div class="message-user">${e.message.user.name}</div>
+                        <div class="message-user" onclick="openPrivateChat({{ $msg->user->id }})"  style="cursor:pointer">${e.message.user.name}</div>
                         ${e.message.message}
                     </div>
                 </div>
@@ -332,7 +368,7 @@ function requestChat(id){
             chatMessages.scrollTop = chatMessages.scrollHeight;
         });
 
-})();
+    })();
 </script>
 <script>
     function updateChatStatus(chatId, status) {
@@ -353,6 +389,52 @@ function requestChat(id){
                 document.getElementById('tab-community').innerHTML = html;
                 switchTab('community');
             });
+    }
+
+</script>
+
+{{-- private chat --}}
+<script>
+    function openPrivateChat(userId) {
+        fetch(`/community/chat/with/${userId}`)
+            .then(res => res.text())
+            .then(html => {
+                document.getElementById('tab-community').classList.remove('active');
+                document.getElementById('tab-requests').classList.remove('active');
+                document.getElementById('private-chat-box').classList.add('active');
+                document.getElementById('private-chat-box').innerHTML = html;
+            });
+    }
+
+    function backToCommunity() {
+        document.getElementById('private-chat-box').classList.remove('active');
+        document.getElementById('tab-community').classList.add('active');
+    }
+
+    function sendPrivateMessage(chatId) {
+        const input = document.getElementById('privateMessageInput');
+        const message = input.value.trim();
+        if (!message) return;
+
+        // UI instant add
+        document.getElementById('privateChatMessages').innerHTML += `
+            <div class="message-row me">
+                <div class="message-bubble">${message}</div>
+            </div>
+        `;
+
+        input.value = '';
+        document.getElementById('privateChatMessages').scrollTop =
+            document.getElementById('privateChatMessages').scrollHeight;
+
+        fetch(`/community/chat/${chatId}/send`, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ message })
+        });
     }
 
 </script>

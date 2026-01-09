@@ -26,6 +26,48 @@
     <link href="{{ asset('assets/admin-assets/plugins/toast/toastr.css') }}" rel="stylesheet" type="text/css" />
     <!-- Toast message -->
 
+    <style>
+        /* Sticky Support Button */
+        .support-fab {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(148deg, #000000 10%, #d4af37 100%);
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+            z-index: 9999;
+            animation: pulse 2s infinite;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        /* Hover effect */
+        .support-fab:hover {
+            transform: scale(1.1) rotate(8deg);
+            color: #fff;
+        }
+
+        /* Pulse Animation */
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(212,175,55, 0.6);
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(212,175,55, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(212,175,55, 0);
+            }
+        }
+
+    </style>
 
     @yield('style')
 
@@ -38,6 +80,11 @@
     @yield('content')
 
     @include('layouts.site-include.footer')
+
+    <!-- Sticky Support Button -->
+    <a href="https://wa.me/+917980395623" class="support-fab" title="Support">
+        <i class="fas fa-headset"></i>
+    </a>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"

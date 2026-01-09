@@ -35,6 +35,11 @@ class UserProfileController extends Controller
             $user->password = Hash::make($request->password);
         }
 
+        if ($request->hasFile('profile_image')) {
+            $user->clearMediaCollection('user-image');
+            $user->addMedia($request->file('profile_image'))->toMediaCollection('user-image');
+        }
+
         $user->save();
 
         return back()->with('success','Profile updated successfully');

@@ -38,6 +38,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/community/chat/request/{id}',[CommunityController::class,'requestChat']);
     Route::post('/community/chat/{id}/status',[CommunityController::class,'updateChatStatus']);
     Route::post('/community/chat/{id}/send',[CommunityController::class,'sendPrivate']);
+    Route::get('/community/members',[CommunityController::class,'get_members']);
+    Route::get('/community/chat/with/{id}', [CommunityController::class, 'privateChat']);
+
 });
 
 Route::get('/r/{encoded}', [HomeController::class, 'redirectSponsor'])->name('referral.link');

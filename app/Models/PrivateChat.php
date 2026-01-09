@@ -60,4 +60,25 @@ class PrivateChat extends Model
             ? $this->receiver
             : $this->sender;
     }
+
+    public static function firstOrCreatePrivate($user1, $user2)
+    {
+        $chat = self::where(function ($q) use ($user1, $user2) {
+            $q->where('sender_id', $user1)
+            ->where('receiver_id', $user2);
+        })->orWhere(function ($q) use ($user1, $user2) {
+            $q->where('sender_id', $user2)
+            ->where('receiver_id', $user1);
+        })->first();
+
+        if (!$chat) {
+            $chat = self::create([
+                'sender_id' => $user1,
+                'receiver_id' => $user2,
+            ]);
+        }
+
+        return $chat;
+    }
+
 }

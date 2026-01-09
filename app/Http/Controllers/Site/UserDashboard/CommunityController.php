@@ -11,6 +11,9 @@ use App\Models\PrivateChat;
 use App\Models\PrivateMessage;
 use App\Models\User;
 
+use App\Events\CommunityMessageSent;
+use App\Events\PrivateMessageSent;
+
 class CommunityController extends Controller
 {
     /*
@@ -24,7 +27,7 @@ class CommunityController extends Controller
 
         $messages = CommunityMessage::with('user')
             ->latest()
-            ->take(50)
+            // ->take(50)
             ->get()
             ->reverse();
 
@@ -34,7 +37,7 @@ class CommunityController extends Controller
                 'receiver',
                 'messages' => fn($q) => $q->latest()->limit(1)
             ])
-            ->where('status', 'accepted')
+            // ->where('status', 'accepted')
             ->where(function ($q) {
                 $q->where('sender_id', auth()->id())
                 ->orWhere('receiver_id', auth()->id());
@@ -60,6 +63,31 @@ class CommunityController extends Controller
         );
     }
 
+    public function get_members(){
+        $members = User::role('User')
+                    ->where('id', "!=", auth()->id())
+                    ->where('status',1)
+                    ->get()
+                    ->map(function ($user) {
+                        $avatar = $user->getFirstMediaUrl('user-image');
+
+                        if (!$avatar || trim($avatar) === '') {
+                            $avatar = asset('assets/user-admin-assets/img/default-user.png');
+                        }
+
+                        return [
+                            'id' => $user->id,
+                            'name' => $user->name,
+                            'avatar' => $avatar
+                        ];
+                    });
+
+        return response()->json([
+            "status" => true,
+            "members" => $members
+        ]);
+    }
+
     /*
     |--------------------------------------------------------------------------
     | SEND COMMUNITY MESSAGE
@@ -82,10 +110,11 @@ class CommunityController extends Controller
         $msg = CommunityMessage::create([
             'user_id' => auth()->id(),
             'message' => strip_tags($request->message,'<a>'),
+            'avatar' => auth()->user()->getFirstMediaUrl('user-image') ?: asset('assets/user-admin-assets/img/default-user.png'),
             'is_pinned' => auth()->user()->hasRole('admin') && $request->pin ? 1 : 0
         ]);
 
-        broadcast(new \App\Events\CommunityMessageSent($msg))->toOthers();
+        broadcast(new CommunityMessageSent($msg))->toOthers();
 
         return response()->json($msg);
     }
@@ -155,7 +184,7 @@ class CommunityController extends Controller
     {
         $chat = PrivateChat::findOrFail($chatId);
 
-        if ($chat->status !== 'accepted') abort(403);
+        // if ($chat->status !== 'accepted') abort(403);
 
         $msg = PrivateMessage::create([
             'chat_id' => $chat->id,
@@ -168,5 +197,16 @@ class CommunityController extends Controller
         return response()->json($msg);
     }
 
+    public function privateChat($id)
+    {
+        $user = User::findOrFail($id);
+        $authId = auth()->id();
+
+        $chat = PrivateChat::firstOrCreatePrivate($authId, $id); // I can define this
+
+        $messages = $chat->messages()->with('user')->get();
+
+        return view('site.user-dashboard.community.partials.private-chat', compact('chat', 'user', 'messages'));
+    }
 
 }
