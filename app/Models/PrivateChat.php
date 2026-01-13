@@ -60,7 +60,7 @@ class PrivateChat extends Model
             ? $this->receiver
             : $this->sender;
     }
-
+    
     public static function firstOrCreatePrivate($user1, $user2)
     {
         $chat = self::where(function ($q) use ($user1, $user2) {
@@ -80,5 +80,4 @@ class PrivateChat extends Model
 
         return $chat;
     }
-
 }

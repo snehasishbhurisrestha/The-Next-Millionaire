@@ -10,7 +10,8 @@ class CommunityMessage extends Model
     protected $fillable = [
         'user_id',
         'message',
-        'is_pinned'
+        'is_pinned',
+        'reply_to_id'
     ];
 
     protected $casts = [
@@ -22,13 +23,14 @@ class CommunityMessage extends Model
         return $this->belongsTo(User::class);
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Helpers
-    |--------------------------------------------------------------------------
-    */
+    public function replyTo(): BelongsTo
+    {
+        return $this->belongsTo(CommunityMessage::class, 'reply_to_id');
+    }
+
     public function canEdit(): bool
     {
         return now()->diffInMinutes($this->created_at) <= 5;
     }
 }
+

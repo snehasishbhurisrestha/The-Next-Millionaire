@@ -10,7 +10,8 @@ class PrivateMessage extends Model
     protected $fillable = [
         'chat_id',
         'user_id',
-        'message'
+        'message',
+        'reply_to_id'
     ];
 
     public function chat(): BelongsTo
@@ -22,4 +23,10 @@ class PrivateMessage extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function replyTo(): BelongsTo
+    {
+        return $this->belongsTo(PrivateMessage::class, 'reply_to_id');
+    }
+    
 }

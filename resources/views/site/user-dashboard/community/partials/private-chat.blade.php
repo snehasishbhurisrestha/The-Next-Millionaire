@@ -1,4 +1,4 @@
-<div class="d-flex flex-column h-100">
+<div class="d-flex flex-column h-100" id="privateChatBox" data-chat-id="{{ $chat->id }}">
 
     <!-- HEADER -->
     <div style="display:flex;align-items:center;gap:10px;padding:10px;border-bottom:1px solid #1e293b;">

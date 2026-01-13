@@ -82,7 +82,6 @@
     .message-row.me .avatar{
         display:none;
     }
-
     .avatar img {
         width: 100%;
         height: 100%;
@@ -180,7 +179,7 @@
         </div>
 
     </div>
-
+    
     <div id="private-chat-box" class="community-content">
         <!-- Private chat will load here -->
     </div>
@@ -241,6 +240,7 @@ window.onload = function () {
     }
 };
 </script>
+
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     fetch('/community/members')
@@ -273,6 +273,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 <script>
+    
+const authUserId = {{ auth()->id() }};
+
 function switchTab(tab){
     document.querySelectorAll('.community-tab').forEach(t=>t.classList.remove('active'));
     document.querySelectorAll('.community-content').forEach(c=>c.classList.remove('active'));
@@ -343,6 +346,38 @@ function requestChat(id){
 </script>
 
 <script>
+// (function waitForEcho() {
+
+//     if (typeof window.Echo === 'undefined') {
+//         setTimeout(waitForEcho, 50);
+//         return;
+//     }
+
+//     console.log('Echo ready ✅');
+
+//     window.echoInstance
+//         .channel('community.global')
+//         .listen('.CommunityMessageSent', (e) => {
+//             if (e.message.user_id === authUserId) {
+//                 return;
+//             }
+
+//             chatMessages.innerHTML += `
+//                 <div class="message-row">
+//                     <div class="avatar"onclick="openPrivateChat({{ $msg->user->id }})"  style="cursor:pointer">${e.message}</div>
+//                     <div class="message-bubble">
+//                         <div class="message-user" onclick="openPrivateChat({{ $msg->user->id }})"  style="cursor:pointer">${e.message.user.name}</div>
+//                         ${e.message.message}
+//                     </div>
+//                 </div>
+//             `;
+
+//             chatMessages.scrollTop = chatMessages.scrollHeight;
+//         });
+
+// })();
+</script>
+<script>
 (function waitForEcho() {
 
     if (typeof window.Echo === 'undefined') {
@@ -352,15 +387,29 @@ function requestChat(id){
 
     console.log('Echo ready ✅');
 
-    window.Echo.channel('community.global')
+    window.echoInstance
+        .channel('community.global')
         .listen('.CommunityMessageSent', (e) => {
+            
+            console.log(e);
+
+            if (e.message.user_id === authUserId) {
+                return;
+            }
+            
 
             chatMessages.innerHTML += `
                 <div class="message-row">
-                    <div class="avatar" onclick="openPrivateChat({{ $msg->user->id }})"  style="cursor:pointer"><img src="${e.message.avatar}"></div>
+                    <div class="avatar" onclick="openPrivateChat(${e.message.user_id})" style="cursor:pointer">
+                        <img src="${e.message.avatar}" />
+                    </div>
                     <div class="message-bubble">
-                        <div class="message-user" onclick="openPrivateChat({{ $msg->user->id }})"  style="cursor:pointer">${e.message.user.name}</div>
-                        ${e.message.message}
+                        <div class="message-user" onclick="openPrivateChat(${e.message.user_id})" style="cursor:pointer">
+                            ${e.message.user.name}
+                        </div>
+                        <div class="message-text">
+                            ${e.message.message}
+                        </div>
                     </div>
                 </div>
             `;
@@ -368,8 +417,9 @@ function requestChat(id){
             chatMessages.scrollTop = chatMessages.scrollHeight;
         });
 
-    })();
+})();
 </script>
+
 <script>
     function updateChatStatus(chatId, status) {
         fetch(`/community/chat/${chatId}/status`, {
@@ -395,6 +445,19 @@ function requestChat(id){
 
 {{-- private chat --}}
 <script>
+    // function openPrivateChat(userId) {
+    //     fetch(`/community/chat/with/${userId}`)
+    //         .then(res => res.text())
+    //         .then(html => {
+    //             document.getElementById('tab-community').classList.remove('active');
+    //             document.getElementById('tab-requests').classList.remove('active');
+    //             document.getElementById('private-chat-box').classList.add('active');
+    //             document.getElementById('private-chat-box').innerHTML = html;
+    //         });
+    // }
+    
+    let currentPrivateChatId = null;
+
     function openPrivateChat(userId) {
         fetch(`/community/chat/with/${userId}`)
             .then(res => res.text())
@@ -403,8 +466,21 @@ function requestChat(id){
                 document.getElementById('tab-requests').classList.remove('active');
                 document.getElementById('private-chat-box').classList.add('active');
                 document.getElementById('private-chat-box').innerHTML = html;
+    
+                setTimeout(() => {
+                    const chatBox = document.getElementById('privateChatBox');
+                    if (!chatBox) return;
+    
+                    const chatId = chatBox.dataset.chatId;
+                    if (chatId) {
+                        currentPrivateChatId = chatId;
+                        listenPrivateChat(chatId);
+                    }
+                }, 200);
             });
     }
+
+
 
     function backToCommunity() {
         document.getElementById('private-chat-box').classList.remove('active');
@@ -436,7 +512,44 @@ function requestChat(id){
             body: JSON.stringify({ message })
         });
     }
+    
+    function listenPrivateChat(chatId) {
+        console.log('calling');
 
+        if (window.privateEchoChannel) {
+            window.privateEchoChannel.stopListening('.PrivateMessageSent');
+        }
+        console.log('calling passed 2');
+        window.privateEchoChannel = window.echoInstance.private(`private.chat.${chatId}`)
+            .listen('.PrivateMessageSent', (e) => {
+                console.log('calling passed 3');
+    
+                if (e.message.user_id === authUserId) return;
+    
+                let msgBox = document.getElementById('privateChatMessages');
+                console.log(e);
+    
+                msgBox.innerHTML += `
+                    <div class="message-row">
+                        <div class="avatar">
+                            <img src="${e.message.avatar}">
+                        </div>
+                        <div class="message-bubble">
+                            ${e.message.message}
+                        </div>
+                    </div>
+                `;
+    
+                msgBox.scrollTop = msgBox.scrollHeight;
+            });
+    }
+
+</script>
+<script>
+    const box = document.getElementById('privateChatMessages');
+    if (box) {
+        box.scrollTop = box.scrollHeight;
+    }
 </script>
 
 @endsection

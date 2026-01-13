@@ -87,7 +87,7 @@ class CommunityController extends Controller
             "members" => $members
         ]);
     }
-
+    
     /*
     |--------------------------------------------------------------------------
     | SEND COMMUNITY MESSAGE
@@ -103,18 +103,21 @@ class CommunityController extends Controller
             ->where('user_id', auth()->id())
             ->count();
 
-        if(!auth()->user()->hasRole('admin') && $todayCount >= 2){
-            return response()->json(['error'=>'Daily limit reached'],403);
-        }
+        // if(!auth()->user()->hasRole('admin') && $todayCount >= 2){
+        //     return response()->json(['error'=>'Daily limit reached'],403);
+        // }
 
         $msg = CommunityMessage::create([
             'user_id' => auth()->id(),
             'message' => strip_tags($request->message,'<a>'),
-            'avatar' => auth()->user()->getFirstMediaUrl('user-image') ?: asset('assets/user-admin-assets/img/default-user.png'),
-            'is_pinned' => auth()->user()->hasRole('admin') && $request->pin ? 1 : 0
+            'is_pinned' => auth()->user()->hasRole('admin') && $request->pin ? 1 : 0,
+            'reply_to_id' => $request->reply_to_id
         ]);
+        
+        $msg->load('user');
 
         broadcast(new CommunityMessageSent($msg))->toOthers();
+        // broadcast(new \App\Events\CommunityMessageSent($msg));
 
         return response()->json($msg);
     }
@@ -190,13 +193,14 @@ class CommunityController extends Controller
             'chat_id' => $chat->id,
             'user_id' => auth()->id(),
             'message' => $request->message,
+            'reply_to_id' => $request->reply_to_id
         ]);
 
         broadcast(new PrivateMessageSent($msg))->toOthers();
 
         return response()->json($msg);
     }
-
+    
     public function privateChat($id)
     {
         $user = User::findOrFail($id);
@@ -208,5 +212,6 @@ class CommunityController extends Controller
 
         return view('site.user-dashboard.community.partials.private-chat', compact('chat', 'user', 'messages'));
     }
+
 
 }

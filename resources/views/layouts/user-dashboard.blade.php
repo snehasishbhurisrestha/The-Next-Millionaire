@@ -10,6 +10,8 @@
     <meta name="author" content="">
 
     <title>{{ env('APP_NAME' )}} - @yield('title')</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
 
     <!-- Custom fonts for this template-->
     <link href="{{ asset('assets/user-admin-assets/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
@@ -25,6 +27,10 @@
     <!-- Toast message -->
 
     @vite(['resources/js/app.js'])
+    
+    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+    <script src="https://unpkg.com/laravel-echo/dist/echo.iife.js"></script>
+
 
     <style>
         .logo-img{
@@ -65,7 +71,7 @@
         }
 
     </style>
-
+    
     <style>
         /* Sticky Support Button */
         .support-fab {
@@ -185,7 +191,7 @@
             </div>
         </div>
     </div>
-
+    
     <!-- Sticky Support Button -->
     <a href="https://wa.me/+917980395623" class="support-fab" title="Support">
         <i class="fas fa-headset"></i>
@@ -235,6 +241,36 @@
 
     <!-- Page level custom scripts -->
     <script src="{{ asset('assets/user-admin-assets/js/demo/datatables-demo.js') }}"></script>
+    
+    <script>
+        console.log('Init Echo script loaded');
+        
+        window.Pusher = Pusher;
+        
+        /**
+         * IMPORTANT:
+         * In CDN (IIFE) mode → Echo constructor is at `window.Echo.default`
+         */
+        const EchoConstructor = window.Echo?.default || window.Echo;
+        
+        window.echoInstance = new EchoConstructor({
+            broadcaster: 'pusher',
+            key: "{{ config('broadcasting.connections.pusher.key') }}",
+            cluster: "{{ config('broadcasting.connections.pusher.options.cluster') }}",
+            forceTLS: true,
+            authEndpoint: '/broadcasting/auth',
+            auth: {
+                headers: {
+                    'X-CSRF-TOKEN': document
+                        .querySelector('meta[name="csrf-token"]')
+                        .getAttribute('content')
+                }
+            }
+        });
+        
+        console.log('Echo instance created ✅', window.echoInstance);
+    </script>
+
 
     @yield('script')
 </body>

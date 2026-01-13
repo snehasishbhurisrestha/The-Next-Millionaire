@@ -25,7 +25,7 @@
     <!-- Toast message -->
     <link href="{{ asset('assets/admin-assets/plugins/toast/toastr.css') }}" rel="stylesheet" type="text/css" />
     <!-- Toast message -->
-
+    
     <style>
         /* Sticky Support Button */
         .support-fab {
@@ -80,7 +80,7 @@
     @yield('content')
 
     @include('layouts.site-include.footer')
-
+    
     <!-- Sticky Support Button -->
     <a href="https://wa.me/+917980395623" class="support-fab" title="Support">
         <i class="fas fa-headset"></i>
