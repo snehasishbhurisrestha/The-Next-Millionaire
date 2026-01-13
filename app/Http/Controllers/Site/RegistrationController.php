@@ -31,7 +31,7 @@ class RegistrationController extends Controller
             'first_name' => 'required|regex:/^[a-zA-Z\s]+$/|max:255',
             'last_name' => 'required|regex:/^[a-zA-Z\s]+$/|max:255',
             'email' => 'required|email',
-            'phone' => 'required|digits:10|regex:/^[6789]/',
+            'phone' => 'required',
             'password' => 'required|confirmed',
         ]);
 

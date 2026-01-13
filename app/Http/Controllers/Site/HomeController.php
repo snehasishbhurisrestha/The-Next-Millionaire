@@ -11,6 +11,7 @@ use App\Models\BlogCategory;
 use App\Models\NewsletterEmail;
 use App\Models\Course;
 use App\Models\Testimonial;
+use App\Models\User;
 
 class HomeController extends Controller
 {
@@ -25,6 +26,9 @@ class HomeController extends Controller
             $decodedId = base64_decode($request->get('ref'));
             // Optional: track sponsor, store session, etc.
             session(['sponsor_id' => $decodedId]);
+            $sponsor_user = User::where('user_id',$decodedId)->first();
+            $sponsor_user->refer_link_click += 1;
+            $sponsor_user->update();
         }
         $cource = Course::first();
         $testimonials = Testimonial::where('is_visible',1)->orderBy('created_at','desc')->get();

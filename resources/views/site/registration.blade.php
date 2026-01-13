@@ -101,7 +101,7 @@
                                id="phone"
                                name="phone"
                                value="{{ old('phone') }}"
-                               placeholder="+91"
+                               placeholder="Phone"
                                style="background-color: #333; color: white; border: 1px solid #555;" required>
                     </div>
                 </div>

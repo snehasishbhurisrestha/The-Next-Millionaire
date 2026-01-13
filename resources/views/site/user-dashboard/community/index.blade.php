@@ -139,7 +139,7 @@
     <div class="community-tabs">
         <div class="community-tab active" onclick="switchTab('community')">Community</div>
         <div class="community-tab" onclick="switchTab('requests')">Messages</div>
-        <div class="community-tab" onclick="switchTab('members')">Members</div>
+        {{-- <div class="community-tab" onclick="switchTab('members')">Members</div> --}}
     </div>
 
     <!-- COMMUNITY CHAT -->
