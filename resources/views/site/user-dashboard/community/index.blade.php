@@ -128,6 +128,31 @@
         border-bottom: 1px solid #eee;
     }
 </style>
+
+<style>
+    .reply-preview {
+        background: #0f172a;
+        border-left: 4px solid #22c55e;
+        padding: 8px;
+        margin: 5px;
+        border-radius: 8px;
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        font-size: 13px;
+    }
+    
+    .reply-box {
+        background: #020617;
+        border-left: 3px solid #22c55e;
+        padding: 5px;
+        font-size: 12px;
+        margin-bottom: 4px;
+        border-radius: 5px;
+        cursor:pointer;
+    }
+
+</style>
 @endsection
 
 
@@ -139,7 +164,7 @@
     <div class="community-tabs">
         <div class="community-tab active" onclick="switchTab('community')">Community</div>
         <div class="community-tab" onclick="switchTab('requests')">Messages</div>
-        {{-- <div class="community-tab" onclick="switchTab('members')">Members</div> --}}
+        {{--<div class="community-tab" onclick="switchTab('members')">Members</div>--}}
     </div>
 
     <!-- COMMUNITY CHAT -->
@@ -271,6 +296,46 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 
+<script>
+    let replyToId = null;
+
+    function replyToMessage(id, user, text) {
+        replyToId = id;
+        document.getElementById('replyPreview').style.display = 'flex';
+        document.getElementById('replyUser').innerText = user;
+        document.getElementById('replyText').innerText = text;
+    }
+    
+    function cancelReply() {
+        replyToId = null;
+        document.getElementById('replyPreview').style.display = 'none';
+    }
+    
+    function scrollToMessage(id) {
+        const el = document.getElementById('msg-' + id);
+        if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            el.style.background = '#1e293b';
+            setTimeout(() => el.style.background = '', 1500);
+        }
+    }
+    
+    let pressTimer;
+
+    function attachLongPress(el, id, user, text) {
+        el.addEventListener('touchstart', () => {
+            pressTimer = setTimeout(() => {
+                replyToMessage(id, user, text);
+            }, 500); // 500ms long press
+        });
+    
+        el.addEventListener('touchend', () => {
+            clearTimeout(pressTimer);
+        });
+    }
+
+
+</script>
 
 <script>
     
@@ -491,27 +556,51 @@ function requestChat(id){
         const input = document.getElementById('privateMessageInput');
         const message = input.value.trim();
         if (!message) return;
-
+    
+        let replyHTML = '';
+    
+        if (replyToId) {
+            const replyUser = document.getElementById('replyUser').innerText;
+            const replyText = document.getElementById('replyText').innerText;
+    
+            replyHTML = `
+                <div class="reply-box">
+                    <small>${replyUser}</small>
+                    <div>${replyText}</div>
+                </div>
+            `;
+        }
+    
         // UI instant add
         document.getElementById('privateChatMessages').innerHTML += `
             <div class="message-row me">
-                <div class="message-bubble">${message}</div>
+                <div class="message-bubble">
+                    ${replyHTML}
+                    ${message}
+                </div>
             </div>
         `;
-
+    
         input.value = '';
         document.getElementById('privateChatMessages').scrollTop =
             document.getElementById('privateChatMessages').scrollHeight;
-
+    
         fetch(`/community/chat/${chatId}/send`, {
             method: 'POST',
             headers: {
                 'X-CSRF-TOKEN': '{{ csrf_token() }}',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ message })
+            body: JSON.stringify({
+                message,
+                reply_to_id: replyToId
+            })
         });
+    
+        // reset reply state
+        cancelReply();
     }
+
     
     function listenPrivateChat(chatId) {
         console.log('calling');
@@ -551,6 +640,5 @@ function requestChat(id){
         box.scrollTop = box.scrollHeight;
     }
 </script>
-
 @endsection
 

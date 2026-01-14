@@ -25,10 +25,22 @@ class HomeController extends Controller
         if ($request->has('ref')) {
             $decodedId = base64_decode($request->get('ref'));
             // Optional: track sponsor, store session, etc.
-            session(['sponsor_id' => $decodedId]);
-            $sponsor_user = User::where('user_id',$decodedId)->first();
-            $sponsor_user->refer_link_click += 1;
-            $sponsor_user->update();
+            // session(['sponsor_id' => $decodedId]);
+            // $sponsor_user = User::where('user_id', $decodedId)->first();
+            // $sponsor_user->refer_link_click += 1;
+            // $sponsor_user->update();
+
+            // Check if already counted in this session
+            if (!session()->has('ref_counted_'.$decodedId)) {
+                session(['sponsor_id' => $decodedId]);
+                session(['ref_counted_'.$decodedId => true]);
+
+                $sponsor_user = User::where('user_id', $decodedId)->first();
+                if ($sponsor_user) {
+                    $sponsor_user->refer_link_click += 1;
+                    $sponsor_user->update();
+                }
+            }
         }
         $cource = Course::first();
         $testimonials = Testimonial::where('is_visible',1)->orderBy('created_at','desc')->get();

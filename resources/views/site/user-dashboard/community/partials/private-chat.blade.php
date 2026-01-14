@@ -15,20 +15,43 @@
 
     <!-- MESSAGES -->
     <div id="privateChatMessages" class="chat-area">
+
         @foreach($messages as $msg)
-            <div class="message-row {{ $msg->user_id == auth()->id() ? 'me' : '' }}">
-                
+            <div class="message-row {{ $msg->user_id == auth()->id() ? 'me' : '' }}" id="msg-{{ $msg->id }}">
+
                 @if($msg->user_id != auth()->id())
                     <div class="avatar">
                         <img src="{{ $msg->user->getFirstMediaUrl('user-image') ?: asset('assets/user-admin-assets/img/default-user.png') }}">
                     </div>
                 @endif
 
-                <div class="message-bubble">
+                <div class="message-bubble"
+                     data-id="{{ $msg->id }}"
+                     data-user="{{ $msg->user->name }}"
+                     data-text="{{ Str::limit(strip_tags($msg->message), 50) }}"
+                     oncontextmenu="replyToMessage({{ $msg->id }}, '{{ $msg->user->name }}', `{{ Str::limit(strip_tags($msg->message), 50) }}`); return false;">
+
+                    {{-- REPLY BOX --}}
+                    @if($msg->replyTo)
+                        <div class="reply-box" onclick="scrollToMessage({{ $msg->replyTo->id }})">
+                            <small>{{ $msg->replyTo->user->name }}</small>
+                            <div>{{ Str::limit($msg->replyTo->message, 60) }}</div>
+                        </div>
+                    @endif
+
                     {!! $msg->message !!}
                 </div>
             </div>
         @endforeach
+    </div>
+
+    <!-- REPLY PREVIEW BAR -->
+    <div id="replyPreview" class="reply-preview" style="display:none;">
+        <div>
+            <small id="replyUser"></small>
+            <div id="replyText"></div>
+        </div>
+        <button onclick="cancelReply()">✕</button>
     </div>
 
     <!-- INPUT -->
