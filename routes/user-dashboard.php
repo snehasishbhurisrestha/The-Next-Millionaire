@@ -40,6 +40,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/community/chat/{id}/send',[CommunityController::class,'sendPrivate']);
     Route::get('/community/members',[CommunityController::class,'get_members']);
     Route::get('/community/chat/with/{id}', [CommunityController::class, 'privateChat']);
+    Route::delete('/community/message/{id}', [CommunityController::class, 'deleteMessage']);
 });
 
 Route::get('/r/{encoded}', [HomeController::class, 'redirectSponsor'])->name('referral.link');

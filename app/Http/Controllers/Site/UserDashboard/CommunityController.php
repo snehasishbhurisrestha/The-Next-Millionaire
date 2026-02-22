@@ -13,6 +13,7 @@ use App\Models\User;
 
 use App\Events\CommunityMessageSent;
 use App\Events\PrivateMessageSent;
+use App\Events\MessageDeleted;
 
 class CommunityController extends Controller
 {
@@ -208,10 +209,31 @@ class CommunityController extends Controller
 
         $chat = PrivateChat::firstOrCreatePrivate($authId, $id); // I can define this
 
-        $messages = $chat->messages()->with('user')->get();
+        // $messages = $chat->messages()->with('user')->get();
+        $messages = $chat->messages()
+                        ->withTrashed()
+                        ->with('user')
+                        ->get();
+
 
         return view('site.user-dashboard.community.partials.private-chat', compact('chat', 'user', 'messages'));
     }
+    
+    public function deleteMessage($id)
+    {
+        $msg = PrivateMessage::findOrFail($id);
+    
+        if ($msg->user_id != auth()->id()) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+    
+        $msg->delete();
+    
+        broadcast(new MessageDeleted($msg->id, $msg->chat_id, $msg->created_at->format('h:i a')))->toOthers();
+    
+        return response()->json(['success' => true]);
+    }
+
 
 
 }

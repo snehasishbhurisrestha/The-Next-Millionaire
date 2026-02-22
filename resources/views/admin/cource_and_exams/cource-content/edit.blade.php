@@ -144,6 +144,28 @@
                 <div class="col-lg-4 col-md-12">
                     <div class="card">
                         <div class="card-header">
+                            <h3 class="card-title">Insert Links</h3>
+                        </div>
+
+                        <div class="card-body">
+                            <div id="links-container">
+                                @if (!empty($item->links) && $item->links->count() > 0)
+                                    @foreach ($item->links as $link)
+                                    <div class="input-group mb-2 link-group">
+                                        <input type="url" name="links[]" value="{{ $link->link }}" class="form-control" placeholder="Enter link">
+                                        <button type="button" class="btn btn-danger remove-link">-</button>
+                                    </div>
+                                    @endforeach
+                                @endif
+                                <div class="input-group mb-2 link-group">
+                                    <input type="url" name="links[]" class="form-control" placeholder="Enter link">
+                                    <button type="button" class="btn btn-success add-link">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
                             <h3 class="card-title">Save & Publish</h3>
                         </div>
 
@@ -264,6 +286,29 @@ function initUppy(){
 }
 
 toggleFields();
+</script>
+
+
+<script>
+    $(document).ready(function(){
+
+        // Add new link field
+        $(document).on('click', '.add-link', function(){
+            let newField = `
+                <div class="input-group mb-2 link-group">
+                    <input type="url" name="links[]" class="form-control" placeholder="Enter link">
+                    <button type="button" class="btn btn-danger remove-link">-</button>
+                </div>
+            `;
+            $('#links-container').append(newField);
+        });
+
+        // Remove link field
+        $(document).on('click', '.remove-link', function(){
+            $(this).closest('.link-group').remove();
+        });
+
+    });
 </script>
 
 @endsection

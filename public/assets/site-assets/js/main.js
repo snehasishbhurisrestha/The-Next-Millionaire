@@ -14,7 +14,10 @@ document.addEventListener('DOMContentLoaded', function () {
             $(".owl-carousel1").owlCarousel({
                 loop: true,
                 margin: 20,
-                nav: false,
+                nav: true,navText: [
+        '<i class="fa-solid fa-chevron-left"></i>',
+        '<i class="fa-solid fa-chevron-right"></i>'
+    ],
                 dots: true,
                 autoplay: true,
                 autoplayTimeout: 3000,
@@ -46,6 +49,27 @@ document.addEventListener('DOMContentLoaded', function () {
                     0: { items: 1 },
                     600: { items: 2 },
                     1000: { items: 4 }
+                }
+            });
+            
+            
+            $(".owl-carousel3").owlCarousel({
+                loop: true,
+                margin: 20,
+                nav: true,
+                dots: true,
+                autoplay: false,
+                // autoplayTimeout: 4000,
+                responsive:{
+                    0:{
+                        items:1
+                    },
+                    768:{
+                        items:2
+                    },
+                    1200:{
+                        items:3
+                    }
                 }
             });
 

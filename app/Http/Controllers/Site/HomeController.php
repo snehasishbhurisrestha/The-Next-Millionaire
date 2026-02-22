@@ -43,9 +43,12 @@ class HomeController extends Controller
             }
         }
         $cource = Course::first();
-        $testimonials = Testimonial::where('is_visible',1)->orderBy('created_at','desc')->get();
+        // $course_contents = $cource->contents;
+        $testimonials = Testimonial::where('is_visible',1)->where('type','text')->orderBy('created_at','desc')->get();
+        $testimonial_videos = Testimonial::where('is_visible',1)->where('type','video')->orderBy('created_at','desc')->get();
+        $testimonial_screenshorts = Testimonial::where('is_visible',1)->where('type','screenshort')->orderBy('created_at','desc')->get();
 
-        return view('site.home',compact('cource','testimonials'));
+        return view('site.home',compact('cource','testimonials','testimonial_videos','testimonial_screenshorts'));
     }
 
     public function redirectSponsor($encoded)

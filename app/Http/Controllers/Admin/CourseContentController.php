@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\CourseContent;
+use App\Models\CourseContentLinks;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -150,6 +151,13 @@ class CourseContentController extends Controller implements HasMiddleware
                 $content->addMedia($file)->toMediaCollection('pdf_files');
             }
         }
+        
+        foreach($request->links as $link){
+            CourseContentLinks::create([
+                'course_contents_id' => $content->id,
+                'link' => $link
+            ]);
+        }
 
         return back()->with('success', 'Course Content Saved Successfully');
     }
@@ -266,6 +274,17 @@ class CourseContentController extends Controller implements HasMiddleware
         if ($request->hasFile('pdf_files')) {
             foreach ($request->file('pdf_files') as $file) {
                 $content->addMedia($file)->toMediaCollection('pdf_files');
+            }
+        }
+        
+        CourseContentLinks::where('course_contents_id', $content->id)->delete();
+
+        foreach($request->links as $link){
+            if(!empty($link)){
+                CourseContentLinks::create([
+                    'course_contents_id' => $content->id,
+                    'link' => $link
+                ]);
             }
         }
 

@@ -152,6 +152,10 @@
                     @can('Testimonial Show')
                     <li class="active"><a href="{{ route('testimonial.index') }}"><i class="fa fa-comment"></i><span>Testimonial</span></a></li>
                     @endcan
+                    
+                    @can('Testimonial2 Show')
+                    <li class="active"><a href="{{ route('testimonial2.index') }}"><i class="fa fa-comment"></i><span>Testimonial2</span></a></li>
+                    @endcan
 
                     @canany(['Enrollments Show','Transactions Show','Withdraw Show'])
                     <li class="{{ request()->is('admin/enrollments*') || request()->is('admin/transactions*') || request()->is('admin/withdraws*') ? 'active open' : '' }}">

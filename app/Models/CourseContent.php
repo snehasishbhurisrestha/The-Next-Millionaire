@@ -41,5 +41,11 @@ class CourseContent extends Model implements HasMedia
             ->useDisk('public')
             ->acceptsFile(fn ($file) => $file->mimeType === 'application/pdf');
     }
+    
+    public function links()
+    {
+        return $this->hasMany(CourseContentLinks::class, 'course_contents_id');
+    }
+    
 
 }

@@ -34,7 +34,8 @@ class Dashboard extends Controller
         $userId = $user->id;
 
         // Total referrals (users who came via this user's link)
-        $totalReferrals = User::where('refered_by',$userId)->count();
+        // $totalReferrals = User::where('refered_by',$userId)->count();
+        $totalReferrals = Transaction::where('user_id',$userId)->where('type','referral_commission')->count();
 
         // Total income generated from referrals
         $totalIncome = $user->total_income;

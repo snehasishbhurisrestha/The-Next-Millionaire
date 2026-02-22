@@ -299,6 +299,24 @@
             </div>
         </div>
     @endif
+    
+    {{-- Links Section --}}
+    @if ($currentLesson && $currentLesson->links && $currentLesson->links->count() > 0)
+        <div class="mt-4 text-center">
+            <h5 class="mb-2" style="color: white !important;">Useful Links</h5>
+
+            <div class="d-flex flex-wrap gap-2 justify-content-center">
+                @foreach ($currentLesson->links as $index => $link)
+                    <a href="{{ $link->link }}" 
+                    target="_blank"
+                    class="pdf-btn">
+                        <i class="fa fa-external-link"></i>
+                        Open Link {{ $index+1 }}
+                    </a>
+                @endforeach
+            </div>
+        </div>
+    @endif
 
 
 

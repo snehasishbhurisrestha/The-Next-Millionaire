@@ -26,6 +26,7 @@ use App\Http\Controllers\Admin\{
     ExamController,
     ExamQuestionsController,
     TestimonialController,
+    TestimonialVideoController,
     SettingController,
     EnrollmenttController,
     TransactionController,
@@ -160,6 +161,7 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::resource('testimonial', TestimonialController::class);
+    Route::resource('testimonial2', TestimonialVideoController::class);
     Route::resource('auditors', AuditorsController::class);
     Route::get('auditors/{id}/id-card', [AuditorsController::class,'id_card'])->name('auditor.id-card');
     

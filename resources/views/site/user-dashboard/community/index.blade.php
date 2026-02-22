@@ -59,6 +59,10 @@
         padding:10px 14px;
         border-radius:14px;
         background:#020617;
+        
+        -webkit-user-select: none;
+        user-select: none;
+        -webkit-touch-callout: none; /* disables magnifier */
     }
     .message-row.me .message-bubble{
         background:#1e293b;
@@ -151,6 +155,39 @@
         border-radius: 5px;
         cursor:pointer;
     }
+    
+    .msg-time {
+        font-size: 11px;
+        color: #94a3b8;
+        float: right;
+        margin-top: 8px;
+        margin-left: 5px;
+    }
+
+    .deleted-msg {
+        color: #94a3b8;
+        font-style: italic;
+        font-size: 13px;
+    }
+    
+    .msg-context-menu {
+        position: absolute;
+        background: #0f172a;
+        border-radius: 8px;
+        padding: 6px;
+        display: none;
+        z-index: 9999;
+    }
+    
+    .msg-context-menu button {
+        display: block;
+        background: none;
+        color: white;
+        border: none;
+        padding: 6px 12px;
+        width: 100%;
+        text-align: left;
+    }
 
 </style>
 @endsection
@@ -187,14 +224,48 @@
                     @endif
 
 
-                    <div class="message-bubble">
+                    {{--<div class="message-bubble">
                         @if($msg->user_id != auth()->id())
                             <div class="message-user" onclick="openPrivateChat({{ $msg->user->id }})"  style="cursor:pointer">{{ $msg->user->name }}</div>
                         @endif
                         {!! $msg->message !!}
-                    </div>
+                        
+                        <small class="msg-time">
+                            {{ $msg->created_at->format('h:i a') }}
+                        </small>
+                    </div>--}}
+                    
+                    <div class="message-bubble"
+                     data-id="{{ $msg->id }}"
+                     data-user="{{ $msg->user->name }}"
+                     data-text="{{ Str::limit(strip_tags($msg->message), 50) }}"
+                     oncontextmenu="replyToMessage({{ $msg->id }}, '{{ $msg->user->name }}', `{{ Str::limit(strip_tags($msg->message), 50) }}`); return false;">
+                    @if($msg->user_id != auth()->id())
+                            <div class="message-user" onclick="openPrivateChat({{ $msg->user->id }})"  style="cursor:pointer">{{ $msg->user->name }}</div>
+                        @endif
+                    {{-- REPLY BOX --}}
+                    @if($msg->replyTo)
+                        <div class="reply-box" onclick="scrollToMessage({{ $msg->replyTo->id }})">
+                            <small>{{ $msg->replyTo->user->name }}</small>
+                            <div>{{ Str::limit($msg->replyTo->message, 60) }}</div>
+                        </div>
+                    @endif
+
+                    {!! $msg->message !!}
+                    <small class="msg-time">
+                        {{ $msg->created_at->format('h:i a') }}
+                    </small>
+                </div>
                 </div>
             @endforeach
+        </div>
+        
+        <div id="replyPreviewcommunity" class="reply-preview" style="display:none;">
+            <div>
+                <small id="replyUsercommunity"></small>
+                <div id="replyTextcommunity"></div>
+            </div>
+            <button class="btn" onclick="cancelReply()">✕</button>
         </div>
 
         <!-- INPUT -->
@@ -298,6 +369,58 @@ document.addEventListener("DOMContentLoaded", function () {
 
 <script>
     let replyToId = null;
+    
+    let selectedMsgId = null;
+
+    function openMsgMenu(e, id, isMine) {
+        e.preventDefault();
+    
+        selectedMsgId = id;
+    
+        const menu = document.getElementById('msgContextMenu');
+    
+        // Show delete only for own message
+        document.getElementById('deleteBtn').style.display =
+            isMine ? 'block' : 'none';
+    
+        menu.style.left = e.pageX + 'px';
+        menu.style.top = e.pageY + 'px';
+        menu.style.display = 'block';
+    }
+    
+    document.addEventListener('click', () => {
+        document.getElementById('msgContextMenu').style.display = 'none';
+    });
+    
+    function doReply() {
+        const row = document.getElementById('msg-' + selectedMsgId);
+    
+        if (!row) return;
+    
+        // Get the bubble inside this row
+        const bubble = row.querySelector('.message-bubble');
+    
+        if (!bubble) return;
+    
+        replyToMessage(
+            selectedMsgId,
+            bubble.dataset.user,
+            bubble.dataset.text
+        );
+    
+        hideMenu();
+    }
+
+    
+    function doDelete() {
+        deleteMessage(selectedMsgId);
+        hideMenu();
+    }
+    
+    function hideMenu() {
+        document.getElementById('msgContextMenu').style.display = 'none';
+    }
+
 
     function replyToMessage(id, user, text) {
         replyToId = id;
@@ -320,19 +443,29 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
     
-    let pressTimer;
-
     function attachLongPress(el, id, user, text) {
-        el.addEventListener('touchstart', () => {
+        let pressTimer;
+    
+        el.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // 🔥 stops magnifier & text select
             pressTimer = setTimeout(() => {
                 replyToMessage(id, user, text);
-            }, 500); // 500ms long press
-        });
+            }, 500);
+        }, { passive: false }); // ⚠️ important
     
         el.addEventListener('touchend', () => {
             clearTimeout(pressTimer);
         });
+    
+        el.addEventListener('touchcancel', () => {
+            clearTimeout(pressTimer);
+        });
+    
+        el.addEventListener('touchmove', () => {
+            clearTimeout(pressTimer);
+        });
     }
+
 
 
 </script>
@@ -364,13 +497,31 @@ function switchTab(tab){
 sendCommunity.onclick = () => {
 
     const message = communityInput.value.trim();
+    const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
     if (!message) return;
+    
+    
+    let replyHTML = '';
+    
+    if (replyToId) {
+        const replyUser = document.getElementById('replyUser').innerText;
+        const replyText = document.getElementById('replyText').innerText;
+
+        replyHTML = `
+            <div class="reply-box">
+                <small>${replyUser}</small>
+                <div>${replyText}</div>
+            </div>
+        `;
+    }
 
     /* 1️⃣ SHOW MESSAGE IN UI IMMEDIATELY (RIGHT SIDE) */
     chatMessages.innerHTML += `
         <div class="message-row me">
             <div class="message-bubble">
+                ${replyHTML}
                 ${message}
+                <small class="msg-time">${time}</small>
             </div>
         </div>
     `;
@@ -385,8 +536,13 @@ sendCommunity.onclick = () => {
             'X-CSRF-TOKEN': '{{ csrf_token() }}',
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ message })
+        body: JSON.stringify({
+            message,
+            reply_to_id: replyToId
+        })
     });
+    
+    cancelReply();
 };
 
 /* REALTIME */
@@ -411,38 +567,6 @@ function requestChat(id){
 </script>
 
 <script>
-// (function waitForEcho() {
-
-//     if (typeof window.Echo === 'undefined') {
-//         setTimeout(waitForEcho, 50);
-//         return;
-//     }
-
-//     console.log('Echo ready ✅');
-
-//     window.echoInstance
-//         .channel('community.global')
-//         .listen('.CommunityMessageSent', (e) => {
-//             if (e.message.user_id === authUserId) {
-//                 return;
-//             }
-
-//             chatMessages.innerHTML += `
-//                 <div class="message-row">
-//                     <div class="avatar"onclick="openPrivateChat({{ $msg->user->id }})"  style="cursor:pointer">${e.message}</div>
-//                     <div class="message-bubble">
-//                         <div class="message-user" onclick="openPrivateChat({{ $msg->user->id }})"  style="cursor:pointer">${e.message.user.name}</div>
-//                         ${e.message.message}
-//                     </div>
-//                 </div>
-//             `;
-
-//             chatMessages.scrollTop = chatMessages.scrollHeight;
-//         });
-
-// })();
-</script>
-<script>
 (function waitForEcho() {
 
     if (typeof window.Echo === 'undefined') {
@@ -455,26 +579,41 @@ function requestChat(id){
     window.echoInstance
         .channel('community.global')
         .listen('.CommunityMessageSent', (e) => {
-            
-            console.log(e);
 
             if (e.message.user_id === authUserId) {
                 return;
             }
             
+            const msgId = e.message.id;
+            const user = e.message.user.name;
+            const text = e.message.message.replace(/(<([^>]+)>)/gi, "").substring(0, 50);
+            
+            let replyHTML = '';
+
+            if (e.message.reply) {
+                replyHTML = `
+                    <div class="reply-box" onclick="scrollToMessage(${e.message.reply.id})">
+                        <small>${e.message.reply.user}</small>
+                        <div>${e.message.reply.text}</div>
+                    </div>
+                `;
+            }
+            
 
             chatMessages.innerHTML += `
-                <div class="message-row">
+                <div class="message-row" id="msg-${msgId}">
                     <div class="avatar" onclick="openPrivateChat(${e.message.user_id})" style="cursor:pointer">
                         <img src="${e.message.avatar}" />
                     </div>
-                    <div class="message-bubble">
+                    <div class="message-bubble" oncontextmenu="replyToMessage(${msgId}, '${user}', \`${text}\`); return false;">
                         <div class="message-user" onclick="openPrivateChat(${e.message.user_id})" style="cursor:pointer">
                             ${e.message.user.name}
                         </div>
+                        ${replyHTML}
                         <div class="message-text">
                             ${e.message.message}
                         </div>
+                        <small class="msg-time">${e.message.time}</small>
                     </div>
                 </div>
             `;
@@ -552,10 +691,130 @@ function requestChat(id){
         document.getElementById('tab-community').classList.add('active');
     }
 
+    // function sendPrivateMessage(chatId) {
+    //     const input = document.getElementById('privateMessageInput');
+    //     const message = input.value.trim();
+    //     const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+    //     if (!message) return;
+    
+    //     let replyHTML = '';
+    
+    //     if (replyToId) {
+    //         const replyUser = document.getElementById('replyUser').innerText;
+    //         const replyText = document.getElementById('replyText').innerText;
+    
+    //         replyHTML = `
+    //             <div class="reply-box">
+    //                 <small>${replyUser}</small>
+    //                 <div>${replyText}</div>
+    //             </div>
+    //         `;
+    //     }
+    
+    //     // UI instant add
+    //     document.getElementById('privateChatMessages').innerHTML += `
+    //         <div class="message-row me">
+    //             <div class="message-bubble">
+    //                 ${replyHTML}
+    //                 ${message}
+    //                 <small class="msg-time">${time}</small>
+    //             </div>
+    //         </div>
+    //     `;
+    
+    //     input.value = '';
+    //     document.getElementById('privateChatMessages').scrollTop =
+    //         document.getElementById('privateChatMessages').scrollHeight;
+    
+    //     fetch(`/community/chat/${chatId}/send`, {
+    //         method: 'POST',
+    //         headers: {
+    //             'X-CSRF-TOKEN': '{{ csrf_token() }}',
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify({
+    //             message,
+    //             reply_to_id: replyToId
+    //         })
+    //     });
+    
+    //     // reset reply state
+    //     cancelReply();
+    // }
+
+    
+    // function listenPrivateChat(chatId) {
+
+    //     if (window.privateEchoChannel) {
+    //         window.privateEchoChannel.stopListening('.PrivateMessageSent');
+    //     }
+        
+    //     window.privateEchoChannel = window.echoInstance.private(`private.chat.${chatId}`)
+    //         .listen('.PrivateMessageSent', (e) => {
+    
+    //             if (e.message.user_id === authUserId) return;
+    
+    //             let msgBox = document.getElementById('privateChatMessages');
+    
+    //             // msgBox.innerHTML += `
+    //             //     <div class="message-row">
+    //             //         <div class="avatar">
+    //             //             <img src="${e.message.avatar}">
+    //             //         </div>
+    //             //         <div class="message-bubble">
+    //             //             ${e.message.message}
+    //             //         </div>
+    //             //     </div>
+    //             // `;
+                
+    //             const msgId = e.message.id;
+    //             const user = e.message.user.name;
+    //             const text = e.message.message.replace(/(<([^>]+)>)/gi, "").substring(0, 50);
+                
+    //             let replyHTML = '';
+
+    //             if (e.message.reply) {
+    //                 replyHTML = `
+    //                     <div class="reply-box" onclick="scrollToMessage(${e.message.reply.id})">
+    //                         <small>${e.message.reply.user}</small>
+    //                         <div>${e.message.reply.text}</div>
+    //                     </div>
+    //                 `;
+    //             }
+
+    //             msgBox.innerHTML += `
+    //                 <div class="message-row" id="msg-${msgId}">
+    //                     <div class="avatar">
+    //                         <img src="${e.message.avatar}">
+    //                     </div>
+    //                     <div class="message-bubble"
+    //                         oncontextmenu="replyToMessage(${msgId}, '${user}', \`${text}\`); return false;">
+    //                         ${replyHTML}
+    //                         ${e.message.message}
+    //                         <small class="msg-time">${e.message.time}</small>
+    //                     </div>
+    //                 </div>
+    //             `;
+    
+    //             msgBox.scrollTop = msgBox.scrollHeight;
+    //         });
+    // }
+    
     function sendPrivateMessage(chatId) {
+
         const input = document.getElementById('privateMessageInput');
         const message = input.value.trim();
+    
         if (!message) return;
+    
+        const time = new Date().toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true
+        });
+    
+        // Temp id for UI
+        const tempId = 'temp-' + Date.now();
     
         let replyHTML = '';
     
@@ -571,20 +830,33 @@ function requestChat(id){
             `;
         }
     
-        // UI instant add
+        // Instant UI add (FULL FORMAT)
         document.getElementById('privateChatMessages').innerHTML += `
-            <div class="message-row me">
-                <div class="message-bubble">
-                    ${replyHTML}
-                    ${message}
+            <div class="message-row me" id="msg-${tempId}">
+                <div class="message-bubble"
+                     data-id="${tempId}"
+                     data-user="You"
+                     data-text="${message.substring(0,50)}">
+    
+                    <div class="msg-menu"
+                         oncontextmenu="openMsgMenu(event, '${tempId}', true); return false;">
+    
+                        ${replyHTML}
+                        ${message}
+    
+                        <small class="msg-time">${time}</small>
+    
+                    </div>
                 </div>
             </div>
         `;
     
         input.value = '';
-        document.getElementById('privateChatMessages').scrollTop =
-            document.getElementById('privateChatMessages').scrollHeight;
     
+        const box = document.getElementById('privateChatMessages');
+        box.scrollTop = box.scrollHeight;
+    
+        // Send to server
         fetch(`/community/chat/${chatId}/send`, {
             method: 'POST',
             headers: {
@@ -597,41 +869,106 @@ function requestChat(id){
             })
         });
     
-        // reset reply state
         cancelReply();
     }
-
     
     function listenPrivateChat(chatId) {
-        console.log('calling');
 
         if (window.privateEchoChannel) {
             window.privateEchoChannel.stopListening('.PrivateMessageSent');
         }
-        console.log('calling passed 2');
-        window.privateEchoChannel = window.echoInstance.private(`private.chat.${chatId}`)
-            .listen('.PrivateMessageSent', (e) => {
-                console.log('calling passed 3');
     
-                if (e.message.user_id === authUserId) return;
+        window.privateEchoChannel = window.echoInstance
+            .private(`private.chat.${chatId}`)
+    
+            .listen('.PrivateMessageSent', (e) => {
     
                 let msgBox = document.getElementById('privateChatMessages');
-                console.log(e);
+    
+                const msgId = e.message.id;
+                const user = e.message.user.name;
+    
+                const text = e.message.message
+                    .replace(/(<([^>]+)>)/gi, "")
+                    .substring(0, 50);
+    
+                /* ===============================
+                   IF THIS IS MY OWN MESSAGE
+                   → Replace temp ID
+                =============================== */
+    
+                if (e.message.user_id === authUserId) {
+    
+                    const temp = document.querySelector('[id^="msg-temp-"]');
+    
+                    if (temp) {
+    
+                        temp.id = 'msg-' + msgId;
+    
+                        const bubble = temp.querySelector('.message-bubble');
+    
+                        bubble.dataset.id = msgId;
+    
+                        temp.querySelector('.msg-menu')
+                            .setAttribute(
+                                'oncontextmenu',
+                                `openMsgMenu(event, ${msgId}, true); return false;`
+                            );
+                    }
+    
+                    return;
+                }
+    
+    
+                /* ===============================
+                   OTHER USER MESSAGE
+                =============================== */
+    
+                let replyHTML = '';
+    
+                if (e.message.reply) {
+                    replyHTML = `
+                        <div class="reply-box" onclick="scrollToMessage(${e.message.reply.id})">
+                            <small>${e.message.reply.user}</small>
+                            <div>${e.message.reply.text}</div>
+                        </div>
+                    `;
+                }
     
                 msgBox.innerHTML += `
-                    <div class="message-row">
+                    <div class="message-row" id="msg-${msgId}">
+    
                         <div class="avatar">
                             <img src="${e.message.avatar}">
                         </div>
-                        <div class="message-bubble">
-                            ${e.message.message}
+    
+                        <div class="message-bubble"
+                             data-id="${msgId}"
+                             data-user="${user}"
+                             data-text="${text}">
+    
+                            <div class="msg-menu"
+                                 oncontextmenu="openMsgMenu(event, ${msgId}, false); return false;">
+    
+                                ${replyHTML}
+                                ${e.message.message}
+    
+                                <small class="msg-time">${e.message.time}</small>
+    
+                            </div>
                         </div>
                     </div>
                 `;
     
                 msgBox.scrollTop = msgBox.scrollHeight;
+            })
+            
+            .listen('.MessageDeleted', (e) => {
+                markMessageDeleted(e.messageId, e.time);
             });
     }
+
+
 
 </script>
 <script>
@@ -639,6 +976,34 @@ function requestChat(id){
     if (box) {
         box.scrollTop = box.scrollHeight;
     }
+</script>
+<script>
+    function deleteMessage(id) {
+        fetch(`/community/message/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            }
+        });
+        
+        const time = new Date().toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true
+        });
+    
+        markMessageDeleted(id, time);
+    }
+    
+    function markMessageDeleted(id, time) {
+        const msg = document.getElementById('msg-' + id);
+        if (!msg) return;
+    
+        msg.querySelector('.message-bubble').innerHTML =
+            `<i class="deleted-msg">This message was deleted</i><small class="msg-time">${time}</small>`;
+    }
+
+
 </script>
 @endsection
 

@@ -2,12 +2,12 @@
     <div class="container-fluid">
         <div class="page-header">
             <div class="left">                        
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="What you want to find">
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button">Search</button>
-                    </div>
-                </div>
+                <!--<div class="input-group">-->
+                <!--    <input type="text" class="form-control" placeholder="What you want to find">-->
+                <!--    <div class="input-group-append">-->
+                <!--        <button class="btn btn-outline-secondary" type="button">Search</button>-->
+                <!--    </div>-->
+                <!--</div>-->
             </div>
             <div class="right">
                 {{-- <ul class="nav nav-pills">                            

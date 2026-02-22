@@ -15,7 +15,8 @@ class CommunityMessageSent implements ShouldBroadcast
 
     public function __construct($message)
     {
-        $this->message = $message;
+        // $this->message = $message;
+        $this->message = $message->load('replyTo.user');
     }
 
     public function broadcastOn()
@@ -35,6 +36,17 @@ class CommunityMessageSent implements ShouldBroadcast
         if (!$avatar || trim($avatar) === '') {
             $avatar = asset('assets/user-admin-assets/img/default-user.png');
         }
+        
+        $reply = null;
+
+        if ($this->message->replyTo) {
+            $reply = [
+                'id' => $this->message->replyTo->id,
+                'user' => $this->message->replyTo->user->name ?? 'User',
+                'text' => \Str::limit(strip_tags($this->message->replyTo->message), 60)
+            ];
+        }
+        
         return [
             'message' => [
                 'id' => $this->message->id,
@@ -43,9 +55,11 @@ class CommunityMessageSent implements ShouldBroadcast
                 'avatar' => $avatar,
                 'is_pinned' => $this->message->is_pinned,
                 'created_at' => $this->message->created_at->diffForHumans(),
+                'time' => $this->message->created_at->format('h:i a'),
                 'user' => [
                     'name' => $this->message->user->name ?? 'User'
-                ]
+                ],
+                'reply' => $reply
             ]
         ];
     }

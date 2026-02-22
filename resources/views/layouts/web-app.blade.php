@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
 
     <title>@yield('title') | {{ config('app.name', 'Laravel') }}</title>
 
@@ -18,8 +21,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
-    <link rel="stylesheet" href="{{ asset('assets/site-assets/css/style.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/site-assets/css/responsive.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/site-assets/css/style.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('assets/site-assets/css/responsive.css') }}?v={{ time() }}">
     <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
     
     <!-- Toast message -->
@@ -68,6 +71,8 @@
         }
 
     </style>
+    
+    {!! get_setting('header_script') !!}
 
     @yield('style')
 
@@ -106,7 +111,7 @@
             once: false
         });
     </script>
-    <script src="{{ asset('assets/site-assets/js/main.js') }}"></script>
+    <script src="{{ asset('assets/site-assets/js/main.js') }}?v={{ time() }}"></script>
 
     <!-- toast message -->
     <script src="{{ asset('assets/admin-assets/plugins/toast/toastr.js') }}"></script>
@@ -115,6 +120,9 @@
     @include('layouts._massages')
 
     @yield('script')
+
+    
+    {!! get_setting('footer_script') !!}
 </body>
 
 </html>
