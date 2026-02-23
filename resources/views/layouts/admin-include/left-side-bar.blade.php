@@ -169,15 +169,21 @@
                             @can('Enrollments Show')
                             <li class="{{ request()->is('admin/enrollments*') ? 'active' : '' }}">
                                 <a href="{{ route('admin.enrollments.index') }}">
-                                    <i class="fa fa-check-circle"></i> Enrollments
+                                    Enrollments
                                 </a>
                             </li>
                             @endcan
 
+                            <li class="{{ request()->is('admin/enrollments*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.uncaptured-payment.index') }}">
+                                    Uncaptured Payment
+                                </a>
+                            </li>
+
                             @can('Transactions Show')
                             <li class="{{ request()->is('admin/transactions*') ? 'active' : '' }}">
                                 <a href="{{ route('admin.transactions.index') }}">
-                                    <i class="fa fa-credit-card"></i> Transactions
+                                    Transactions
                                 </a>
                             </li>
                             @endcan
@@ -185,7 +191,7 @@
                             @can('Withdraw Show')
                             <li class="{{ request()->is('admin/withdraws*') ? 'active' : '' }}">
                                 <a href="{{ route('admin.withdraw.index') }}">
-                                    <i class="fa fa-wallet"></i> Withdraw Requests
+                                    Withdraw Requests
                                 </a>
                             </li>
                             @endcan

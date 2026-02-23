@@ -11,6 +11,7 @@ use App\Models\CoursePayments;
 use App\Models\Enrollment;
 use App\Models\Transaction;
 use App\Models\User;
+use App\Models\UncapturedPayment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\PaymentSuccessMail;
@@ -178,6 +179,13 @@ class EnrollmentController extends Controller
             $payment = $api->payment->fetch($request->razorpay_payment_id);
 
             if ($payment->status !== 'captured') {
+
+                $uncaptured_payment = new UncapturedPayment();
+                $uncaptured_payment->user_id = $user->id;
+                $uncaptured_payment->course_id = $course->id;
+                $uncaptured_payment->amount = $price;
+                $uncaptured_payment->save();
+
                 return response()->json([
                     'success' => false,
                     'message' => 'Payment not captured yet. Please wait or contact support.'

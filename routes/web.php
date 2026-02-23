@@ -31,6 +31,7 @@ use App\Http\Controllers\Admin\{
     EnrollmenttController,
     TransactionController,
     WithdrawController,
+    UncapturedPaymentController,
 };
 
 use App\Http\Controllers\Site\{
@@ -46,7 +47,7 @@ use App\Http\Controllers\Site\{
 
 use KalynaSolutions\LaravelTus\Http\Controllers\TusController;
 
-Route::post('/razorpay/webhook', [RazorpayWebhookController::class, 'handle']);
+// Route::post('/razorpay/webhook', [RazorpayWebhookController::class, 'handle']);
 
 
 Route::any('/tus/{any?}', [TusController::class, 'serve'])
@@ -241,6 +242,9 @@ Route::middleware('auth')->group(function () {
     Route::get('withdraws', [WithdrawController::class,'index'])->name('admin.withdraw.index');
     Route::post('withdraw/approve/{id}', [WithdrawController::class,'approve'])->name('admin.withdraw.approve');
     Route::post('withdraw/reject/{id}', [WithdrawController::class,'reject'])->name('admin.withdraw.reject');
+
+    Route::get('uncaptured-payment', [UncapturedPaymentController::class,'index'])->name('admin.uncaptured-payment.index');
+    Route::post('uncaptured-payment/process-payment', [UncapturedPaymentController::class,'process_payment'])->name('admin.uncaptured-payment.process_payment');
 });
 
 require __DIR__.'/auth.php';

@@ -184,10 +184,10 @@
     }
     
     .custom-del {
-    position: relative;
-    display: inline-block;
-    font-size: 48px !important;
-}
+        position: relative;
+        display: inline-block;
+        font-size: 48px !important;
+    }
 
     @media (max-width: 1200px) {
         .custom-del {
@@ -209,33 +209,33 @@
             font-size: 40px !important;
         }
     }
-.custom-del::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 50%;
-    width: 100%;
-    height: 3px;
-    background: #ff0018;
-    transform: translateY(-50%) rotate(10deg);
-}
+    .custom-del::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        width: 100%;
+        height: 3px;
+        background: #ff0018;
+        transform: translateY(-50%) rotate(10deg);
+    }
 
- .custom-del1 {
-    position: relative;
-    display: inline-block;
-    font-size: 24px !important;  /* ← increase from 23px to 30px */
-}
+    .custom-del1 {
+        position: relative;
+        display: inline-block;
+        font-size: 24px !important;  /* ← increase from 23px to 30px */
+    }
 
-.custom-del1::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 50%;
-    width: 100%;
-    height: 3px;
-    background: #ff0018;
-    transform: translateY(-50%) rotate(10deg);  /* ← also fix this line */
-}
+    .custom-del1::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        width: 100%;
+        height: 3px;
+        background: #ff0018;
+        transform: translateY(-50%) rotate(10deg);  /* ← also fix this line */
+    }
 
 </style>
 
@@ -327,41 +327,41 @@
     </section>
 
     <section class="marquee my-7">
-    <h3>
-        <div class="marquee-wrapper">
-            <div class="marquee-title" style="color:#FFBA06">
-                LIMITED TIME OFFER – <span class="">85% OFF</span> |
-                WORTH <span class="custom-del">₹5,499</span> NOW ONLY
-                <span class="">₹799</span> |
-                <span class="">SALE IS LIVE!</span>
+        <h3>
+            <div class="marquee-wrapper">
+                <div class="marquee-title" style="color:#FFBA06">
+                    LIMITED TIME OFFER – <span class="">85% OFF</span> |
+                    WORTH <span class="custom-del">₹5,499</span> NOW ONLY
+                    <span class="">₹799</span> |
+                    <span class="">SALE IS LIVE!</span>
+                </div>
+                <div class="marquee-title" style="color:#FFBA06">
+                    LIMITED TIME OFFER – <span class="">85% OFF</span> |
+                    WORTH <span class="custom-del">₹5,499</span> NOW ONLY
+                    <span class="">₹799</span> |
+                    <span class="">SALE IS LIVE!</span>
+                </div>
+                <div class="marquee-title" style="color:#FFBA06">
+                    LIMITED TIME OFFER – <span class="">85% OFF</span> |
+                    WORTH <span class="custom-del">₹5,499</span> NOW ONLY
+                    <span class="">₹799</span> |
+                    <span class="">SALE IS LIVE!</span>
+                </div>
+                <div class="marquee-title" style="color:#FFBA06">
+                    LIMITED TIME OFFER – <span class="">85% OFF</span> |
+                    WORTH <span class="custom-del">₹5,499</span> NOW ONLY
+                    <span class="">₹799</span> |
+                    <span class="">SALE IS LIVE!</span>
+                </div>
+                <div class="marquee-title" style="color:#FFBA06">
+                    LIMITED TIME OFFER – <span class="">85% OFF</span> |
+                    WORTH <span class="custom-del">₹5,499</span> NOW ONLY
+                    <span class="">₹799</span> |
+                    <span class="">SALE IS LIVE!</span>
+                </div>
             </div>
-            <div class="marquee-title" style="color:#FFBA06">
-                LIMITED TIME OFFER – <span class="">85% OFF</span> |
-                WORTH <span class="custom-del">₹5,499</span> NOW ONLY
-                <span class="">₹799</span> |
-                <span class="">SALE IS LIVE!</span>
-            </div>
-            <div class="marquee-title" style="color:#FFBA06">
-                LIMITED TIME OFFER – <span class="">85% OFF</span> |
-                WORTH <span class="custom-del">₹5,499</span> NOW ONLY
-                <span class="">₹799</span> |
-                <span class="">SALE IS LIVE!</span>
-            </div>
-            <div class="marquee-title" style="color:#FFBA06">
-                LIMITED TIME OFFER – <span class="">85% OFF</span> |
-                WORTH <span class="custom-del">₹5,499</span> NOW ONLY
-                <span class="">₹799</span> |
-                <span class="">SALE IS LIVE!</span>
-            </div>
-            <div class="marquee-title" style="color:#FFBA06">
-                LIMITED TIME OFFER – <span class="">85% OFF</span> |
-                WORTH <span class="custom-del">₹5,499</span> NOW ONLY
-                <span class="">₹799</span> |
-                <span class="">SALE IS LIVE!</span>
-            </div>
-        </div>
-    </h3>
-</section>
+        </h3>
+    </section>
     
     @if($testimonial_screenshorts->isNotEmpty())
     <section>
@@ -641,7 +641,7 @@
                         </div>
                     
                         <div class="trust-box">
-                            🎓 1000+ Satisfied Students
+                            🎓 1000+ Happy Students
                         </div>
                     
                     </div>

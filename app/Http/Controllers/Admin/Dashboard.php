@@ -10,6 +10,7 @@ use App\Models\CertificationType;
 use App\Models\AuditTracking;
 use App\Models\AuditorWallet;
 use App\Models\Transaction;
+use App\Models\UncapturedPayment;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
@@ -123,6 +124,9 @@ class Dashboard extends Controller
         $pieLabels = ['Total Revenue','Commission','Net Earnings'];
         $pieData = [$totalRevenue,$totalCommission,$netEarning];
 
+
+        $problem_payment = UncapturedPayment::count();
+
         return view('dashboard', compact(
             'filter',
             'salesCount',
@@ -136,7 +140,8 @@ class Dashboard extends Controller
             'pieData',
             'total_user',
             'today_total_user',
-            'today_elrolled_total_user'
+            'today_elrolled_total_user',
+            'problem_payment'
         ));
     }
 }
