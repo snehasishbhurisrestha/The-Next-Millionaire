@@ -22,7 +22,7 @@ class CommunityController extends Controller
     | MAIN VIEW
     |--------------------------------------------------------------------------
     */
-    public function index()
+    /*public function index()
     {
         $pinned = CommunityMessage::where('is_pinned',1)->latest()->first();
 
@@ -61,6 +61,13 @@ class CommunityController extends Controller
         return view(
             'site.user-dashboard.community.index',
             compact('pinned','messages','chats','requests')
+        );
+    }*/
+
+    public function index()
+    {
+        return view(
+            'site.user-dashboard.community.support'
         );
     }
 

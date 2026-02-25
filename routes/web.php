@@ -32,6 +32,7 @@ use App\Http\Controllers\Admin\{
     TransactionController,
     WithdrawController,
     UncapturedPaymentController,
+    NewUpdateController,
 };
 
 use App\Http\Controllers\Site\{
@@ -245,6 +246,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('uncaptured-payment', [UncapturedPaymentController::class,'index'])->name('admin.uncaptured-payment.index');
     Route::post('uncaptured-payment/process-payment', [UncapturedPaymentController::class,'process_payment'])->name('admin.uncaptured-payment.process_payment');
+
+    Route::resource('new-updates', NewUpdateController::class);
 });
 
 require __DIR__.'/auth.php';

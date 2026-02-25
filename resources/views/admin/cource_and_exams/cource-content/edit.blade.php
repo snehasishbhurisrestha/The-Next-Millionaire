@@ -152,13 +152,15 @@
                                 @if (!empty($item->links) && $item->links->count() > 0)
                                     @foreach ($item->links as $link)
                                     <div class="input-group mb-2 link-group">
-                                        <input type="url" name="links[]" value="{{ $link->link }}" class="form-control" placeholder="Enter link">
+                                        <input type="text" name="button_text[]" value="{{ $link->button_name }}" class="form-control" placeholder="Enter text">
+                                        <input type="url" name="links[]" value="{{ $link->link }}" class="form-control mx-3" placeholder="Enter link">
                                         <button type="button" class="btn btn-danger remove-link">-</button>
                                     </div>
                                     @endforeach
                                 @endif
                                 <div class="input-group mb-2 link-group">
-                                    <input type="url" name="links[]" class="form-control" placeholder="Enter link">
+                                    <input type="text" name="button_text[]" class="form-control" placeholder="Enter text">
+                                    <input type="url" name="links[]" class="form-control mx-3" placeholder="Enter link">
                                     <button type="button" class="btn btn-success add-link">+</button>
                                 </div>
                             </div>
@@ -296,7 +298,8 @@ toggleFields();
         $(document).on('click', '.add-link', function(){
             let newField = `
                 <div class="input-group mb-2 link-group">
-                    <input type="url" name="links[]" class="form-control" placeholder="Enter link">
+                    <input type="text" name="button_text[]" class="form-control" placeholder="Enter text">
+                    <input type="url" name="links[]" class="form-control mx-3" placeholder="Enter link">
                     <button type="button" class="btn btn-danger remove-link">-</button>
                 </div>
             `;

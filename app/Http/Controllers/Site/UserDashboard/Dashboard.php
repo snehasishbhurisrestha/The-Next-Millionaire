@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-use App\Models\BusinessCategory;
+use App\Models\Update;
 use App\Models\Lead;
 use App\Models\User;
 use App\Models\Transaction;
@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
 
 class Dashboard extends Controller
 {
-    public function index(){
+    /*public function index(){
         if (!Auth::check()) {
             return redirect()->route('login')->with('error', 'Please login first.');
         }
@@ -51,5 +51,11 @@ class Dashboard extends Controller
         $balance = $totalIncome - $totalWithdraw;
 
         return view('site.user-dashboard.dashboard', compact('shareUrl','totalReferrals','totalIncome','totalWithdraw', 'balance'));
+    }*/
+
+    public function index(){
+
+        $updates = Update::orderBy('id','desc')->get();
+        return view('site.user-dashboard.new_updates',compact('updates'));
     }
 }

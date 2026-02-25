@@ -78,14 +78,14 @@
                 </div>
             </div>
 
-            <div class="col-6 col-md-4 col-xl-3">
+            {{--<div class="col-6 col-md-4 col-xl-3">
                 <div class="card">
                     <div class="card-body ribbon text-center">
                         <h3 class="mb-0">{{ $referrals ?? 0 }}</h3>
                         <span>Total Referrals</span>
                     </div>
                 </div>
-            </div>
+            </div>--}}
             <div class="col-6 col-md-4 col-xl-3">
                 <div class="card">
                     <div class="card-body ribbon text-center">
@@ -99,6 +99,14 @@
                     <div class="card-body ribbon text-center">
                         <h3 class="mb-0">{{ $today_total_user ?? 0 }}</h3>
                         <span>Today Registered</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-xl-3">
+                <div class="card">
+                    <div class="card-body ribbon text-center">
+                        <h3 class="mb-0">{{ $problem_payment ?? 0 }}</h3>
+                        <span>Uncaptured Payment</span>
                     </div>
                 </div>
             </div>

@@ -152,11 +152,21 @@ class CourseContentController extends Controller implements HasMiddleware
             }
         }
         
-        foreach($request->links as $link){
-            CourseContentLinks::create([
-                'course_contents_id' => $content->id,
-                'link' => $link
-            ]);
+        if ($request->has('links')) {
+
+            foreach ($request->links as $index => $link) {
+
+                // Skip empty links
+                if (!empty($link)) {
+
+                    CourseContentLinks::create([
+                        'course_contents_id' => $content->id,
+                        'link'               => $link,
+                        'button_name'        => $request->button_text[$index] ?? null,
+                    ]);
+
+                }
+            }
         }
 
         return back()->with('success', 'Course Content Saved Successfully');
@@ -279,12 +289,20 @@ class CourseContentController extends Controller implements HasMiddleware
         
         CourseContentLinks::where('course_contents_id', $content->id)->delete();
 
-        foreach($request->links as $link){
-            if(!empty($link)){
-                CourseContentLinks::create([
-                    'course_contents_id' => $content->id,
-                    'link' => $link
-                ]);
+        if ($request->has('links')) {
+
+            foreach ($request->links as $index => $link) {
+
+                // Skip empty links
+                if (!empty($link)) {
+
+                    CourseContentLinks::create([
+                        'course_contents_id' => $content->id,
+                        'link'               => $link,
+                        'button_name'        => $request->button_text[$index] ?? null,
+                    ]);
+
+                }
             }
         }
 

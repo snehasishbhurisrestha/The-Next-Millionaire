@@ -58,22 +58,29 @@
     <hr class="sidebar-divider my-1">
 
     <!-- Nav Item - Dashboard -->
-    <li class="nav-item">
+    {{-- <li class="nav-item">
         <a class="nav-link" href="{{ route('user-dashboard') }}">
             <i class="fas fa-handshake"></i>
             <span>Affiliate Program</span></a>
+    </li> --}}
+
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('user-dashboard') }}">
+            <i class="fas fa-bullhorn"></i>
+            <span>New Updates</span></a>
     </li>
+    
 
     <!-- Divider -->
     <hr class="sidebar-divider my-1">
 
     <li class="nav-item">
         <a class="nav-link" href="{{ route('community') }}">
-            <i class="fas fa-users"></i>
-            <span>Community</span></a>
+            <i class="fas fa-headset"></i>
+            <span>Support & Community</span></a>
     </li>
 
-    <!-- Divider -->
+    {{-- <!-- Divider -->
     <hr class="sidebar-divider my-1">
 
     <!-- Heading -->
@@ -105,7 +112,7 @@
             <i class="fas fa-credit-card"></i>
             <span>Payment Account</span>
         </a>
-    </li>
+    </li> --}}
 
     <!-- Divider -->
     <hr class="sidebar-divider my-1 d-none d-md-block">

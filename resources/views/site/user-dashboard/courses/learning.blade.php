@@ -311,7 +311,7 @@
                     target="_blank"
                     class="pdf-btn">
                         <i class="fa fa-external-link"></i>
-                        Open Link {{ $index+1 }}
+                        {{  $link->button_name }}
                     </a>
                 @endforeach
             </div>
@@ -349,7 +349,7 @@
 
         <h3 class="text-white mb-4" style="font-weight:800;">🎉 Congratulations! You’ve completed the course.</h3>
 
-        <div class="d-flex gap-3 flex-wrap justify-content-center">
+        {{-- <div class="d-flex gap-3 flex-wrap justify-content-center">
             <a href="{{ route('community') }}" class="special-btn">
                 Join Our Community
             </a>
@@ -357,7 +357,7 @@
             <a href="{{ route('user-dashboard') }}" class="special-btn">
                 Join Our Affiliate Program
             </a>
-        </div>
+        </div> --}}
 
         {{-- ⭐ Course Review Section --}}
         @if(!$course->reviews()->where('user_id', auth()->id())->exists())

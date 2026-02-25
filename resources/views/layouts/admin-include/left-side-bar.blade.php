@@ -149,6 +149,10 @@
                     </li>
                     @endif --}}
 
+                    @can('New Update Show')
+                    <li class="active"><a href="{{ route('new-updates.index') }}"><i class="fa fa-bell"></i><span>New Update</span></a></li>
+                    @endcan
+
                     @can('Testimonial Show')
                     <li class="active"><a href="{{ route('testimonial.index') }}"><i class="fa fa-comment"></i><span>Testimonial</span></a></li>
                     @endcan

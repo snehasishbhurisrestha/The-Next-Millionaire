@@ -8,7 +8,8 @@ class CourseContentLinks extends Model
 {
     protected $fillable = [
         'course_contents_id',
-        'link'
+        'link',
+        'button_name'
     ];
 
     // Relationship with CourseContents model
