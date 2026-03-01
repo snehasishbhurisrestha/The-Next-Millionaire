@@ -227,7 +227,7 @@ class EnrollmentController extends Controller
             | 5️⃣ REFERRAL COMMISSION (SAFE)
             |-------------------------------------------------
             */
-            if ($user->refered_by) {
+            /*if ($user->refered_by) {
 
                 $refUser = User::find($user->refered_by);
 
@@ -247,7 +247,7 @@ class EnrollmentController extends Controller
                     $refUser->increment('total_income', $commission);
                     $refUser->increment('wallet_balance', $commission);
                 }
-            }
+            }*/
 
             /*
             |-------------------------------------------------
@@ -301,6 +301,12 @@ class EnrollmentController extends Controller
                 'payment_id' => $request->razorpay_payment_id ?? null,
                 'error' => $e->getMessage()
             ]);
+
+            $uncaptured_payment = new UncapturedPayment();
+            $uncaptured_payment->user_id = $user->id;
+            $uncaptured_payment->course_id = $course->id;
+            $uncaptured_payment->amount = $price;
+            $uncaptured_payment->save();
 
             return response()->json([
                 'success' => false,

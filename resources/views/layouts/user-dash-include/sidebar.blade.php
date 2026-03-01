@@ -77,7 +77,7 @@
     <li class="nav-item">
         <a class="nav-link" href="{{ route('community') }}">
             <i class="fas fa-headset"></i>
-            <span>Support & Community</span></a>
+            <span>Community & Support</span></a>
     </li>
 
     {{-- <!-- Divider -->

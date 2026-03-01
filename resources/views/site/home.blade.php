@@ -331,32 +331,32 @@
             <div class="marquee-wrapper">
                 <div class="marquee-title" style="color:#FFBA06">
                     LIMITED TIME OFFER – <span class="">85% OFF</span> |
-                    WORTH <span class="custom-del">₹5,499</span> NOW ONLY
-                    <span class="">₹799</span> |
+                    WORTH <span class="custom-del">₹{{ formatPrice($cource->price) }}</span> NOW ONLY
+                    <span class="">₹{{ formatPrice($cource->offer_price) }}</span> |
                     <span class="">SALE IS LIVE!</span>
                 </div>
                 <div class="marquee-title" style="color:#FFBA06">
                     LIMITED TIME OFFER – <span class="">85% OFF</span> |
-                    WORTH <span class="custom-del">₹5,499</span> NOW ONLY
-                    <span class="">₹799</span> |
+                    WORTH <span class="custom-del">₹{{ formatPrice($cource->price) }}</span> NOW ONLY
+                    <span class="">₹{{ formatPrice($cource->offer_price) }}</span> |
                     <span class="">SALE IS LIVE!</span>
                 </div>
                 <div class="marquee-title" style="color:#FFBA06">
                     LIMITED TIME OFFER – <span class="">85% OFF</span> |
-                    WORTH <span class="custom-del">₹5,499</span> NOW ONLY
-                    <span class="">₹799</span> |
+                    WORTH <span class="custom-del">₹{{ formatPrice($cource->price) }}</span> NOW ONLY
+                    <span class="">₹{{ formatPrice($cource->offer_price) }}</span> |
                     <span class="">SALE IS LIVE!</span>
                 </div>
                 <div class="marquee-title" style="color:#FFBA06">
                     LIMITED TIME OFFER – <span class="">85% OFF</span> |
-                    WORTH <span class="custom-del">₹5,499</span> NOW ONLY
-                    <span class="">₹799</span> |
+                    WORTH <span class="custom-del">₹{{ formatPrice($cource->price) }}</span> NOW ONLY
+                    <span class="">₹{{ formatPrice($cource->offer_price) }}</span> |
                     <span class="">SALE IS LIVE!</span>
                 </div>
                 <div class="marquee-title" style="color:#FFBA06">
                     LIMITED TIME OFFER – <span class="">85% OFF</span> |
-                    WORTH <span class="custom-del">₹5,499</span> NOW ONLY
-                    <span class="">₹799</span> |
+                    WORTH <span class="custom-del">₹{{ formatPrice($cource->price) }}</span> NOW ONLY
+                    <span class="">₹{{ formatPrice($cource->offer_price) }}</span> |
                     <span class="">SALE IS LIVE!</span>
                 </div>
             </div>
@@ -497,101 +497,41 @@
                     <div class="questions-container">
                         <div class="question">
                             <button class="faq-toggle">
-                                <span>Is this training suitable for beginners?</span>
+                                <span>What is this digital product about?</span>
                                 <i class="fas fa-chevron-down d-arrow"></i>
                             </button>
                             <p class="answer">
-                                Yes. This program is 100% beginner-friendly. No prior experience or technical skills are required.
+                                This digital product is designed to help beginners and working professionals start and grow an online income source step by step. It focuses on practical strategies, real-world implementation, and skill-based learning rather than theory.
                             </p>
                         </div>
 
                         <div class="question">
                             <button class="faq-toggle">
-                                <span>Do I really need zero investment to start?</span>
+                                <span>How will I access the product after purchase?</span>
                                 <i class="fas fa-chevron-down d-arrow"></i>
                             </button>
                             <p class="answer">
-                                Yes. You will learn how to start a digital business without any upfront investment using free tools and proven strategies.
+                                Once the payment is successfully completed, you will receive instant access to the product via email or a secure dashboard. You can access the content anytime and from anywhere.
                             </p>
                         </div>
 
                         <div class="question">
                             <button class="faq-toggle">
-                                <span>What format is the training provided in?</span>
+                                <span>How much time do I need to invest to see results?</span>
                                 <i class="fas fa-chevron-down d-arrow"></i>
                             </button>
                             <p class="answer">
-                                The training includes pre-recorded video lessons, along with eBooks and PDF resources for easy learning.
+                                Results depend on your consistency and implementation. On average, dedicating 2–3 hours per day is sufficient to understand the concepts and start applying them effectively.
                             </p>
                         </div>
 
                         <div class="question">
                             <button class="faq-toggle">
-                                <span>Will I get live support?</span>
+                                <span>Is there any support or community included?</span>
                                 <i class="fas fa-chevron-down d-arrow"></i>
                             </button>
                             <p class="answer">
-                                Yes. You will get access to weekly live sessions where you can interact, ask questions, and learn with the community.
-                            </p>
-                        </div>
-
-                        <div class="question">
-                            <button class="faq-toggle">
-                                <span>What is VIP community access?</span>
-                                <i class="fas fa-chevron-down d-arrow"></i>
-                            </button>
-                            <p class="answer">
-                                VIP community is a private group where you can connect with other learners, get support, updates, and motivation.
-                            </p>
-                        </div>
-
-                        <div class="question">
-                            <button class="faq-toggle">
-                                <span>Is there any earning opportunity?</span>
-                                <i class="fas fa-chevron-down d-arrow"></i>
-                            </button>
-                            <p class="answer">
-                                Yes. You will get access to an affiliate program, allowing you to earn by promoting our products.
-                            </p>
-                        </div>
-
-                        <div class="question">
-                            <button class="faq-toggle">
-                                <span>How long will I have access to the course?</span>
-                                <i class="fas fa-chevron-down d-arrow"></i>
-                            </button>
-                            <p class="answer">
-                                You get lifetime access, including all future updates—no extra charges.
-                            </p>
-                        </div>
-
-                        <div class="question">
-                            <button class="faq-toggle">
-                                <span>Can I learn at my own pace?</span>
-                                <i class="fas fa-chevron-down d-arrow"></i>
-                            </button>
-                            <p class="answer">
-                                Absolutely. Since the lessons are pre-recorded, you can learn anytime, anywhere, at your own speed.
-                            </p>
-                        </div>
-
-                        <div class="question">
-                            <button class="faq-toggle">
-                                <span>Is this available only in India?</span>
-                                <i class="fas fa-chevron-down d-arrow"></i>
-                            </button>
-                            <p class="answer">
-                                This program is designed mainly for the Indian market, but anyone can join from anywhere.
-                            </p>
-                        </div>
-
-                        <div class="question">
-                            <button class="faq-toggle">
-                                <span>How do I get access after purchase?</span>
-                                <i class="fas fa-chevron-down d-arrow"></i>
-                            </button>
-                            <p class="answer">
-                                You will receive instant access to the training and resources right after successful payment.
+                                Yes. You will get access to a private support system or community where you can ask questions, get guidance, and learn from other members’ experiences.
                             </p>
                         </div>
 
@@ -605,16 +545,8 @@
                         </h5>
                     </div>
 
-                    <div class="para text-center">
-                        Our courses are carefully designed to provide the best learning path for building a successful digital business from the ground up. Each module focuses on essential skills such as setting up a business structure, understanding digital marketing basics, and learning proven strategies that work in today’s online world. With step-by-step guidance and actionable lessons, you will gain the confidence to turn your ideas into real results.
-                    </div>
-
                     <div class="para text-center mt-3">
                         The Next Millionaire offers practical courses that focus on skills you can use immediately in the digital marketplace. Instead of vague theories, our training emphasizes real-world application, including social media growth strategies, content creation, and audience engagement techniques. These courses are ideal for beginners and entrepreneurs who want to build a profitable digital business that stands the test of time.
-                    </div>
-
-                    <div class="para text-center mt-3">
-                        What makes our courses stand out is the combination of quality training and ongoing support. Along with video lessons and downloadable resources, you’ll get access to live sessions, expert feedback, and a community of learners who share your goals. This supportive ecosystem ensures you stay motivated, learn effectively, and grow consistently as you build your digital business.
                     </div>
                 </div>
             </div>
@@ -760,7 +692,7 @@
                 <div class="col-lg-6 mt-4">
                     <p class="para pt-1" style="color:#A1A2B1; line-height:22px;">
                         If you have any questions, need support, or require more information, feel free to reach out to us.
-We’re here to help you.
+                        We’re here to help you.
                     </p>
                     <form action="{{ route('contact.store') }}" method="POST">
                         @csrf
