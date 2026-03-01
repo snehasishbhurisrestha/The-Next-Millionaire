@@ -326,10 +326,20 @@
         </div>
     </section>
 
+    @php
+        $marqueeText = get_setting('marquee_text');
+    @endphp
+
+    @if(!empty($marqueeText))
     <section class="marquee my-7">
         <h3>
             <div class="marquee-wrapper">
+                @for($i = 0; $i < 5; $i++)
                 <div class="marquee-title" style="color:#FFBA06">
+                    {!! get_setting('marquee_text') !!}
+                </div>
+                @endfor
+                {{-- <div class="marquee-title" style="color:#FFBA06">
                     LIMITED TIME OFFER – <span class="">85% OFF</span> |
                     WORTH <span class="custom-del">₹{{ formatPrice($cource->price) }}</span> NOW ONLY
                     <span class="">₹{{ formatPrice($cource->offer_price) }}</span> |
@@ -352,16 +362,11 @@
                     WORTH <span class="custom-del">₹{{ formatPrice($cource->price) }}</span> NOW ONLY
                     <span class="">₹{{ formatPrice($cource->offer_price) }}</span> |
                     <span class="">SALE IS LIVE!</span>
-                </div>
-                <div class="marquee-title" style="color:#FFBA06">
-                    LIMITED TIME OFFER – <span class="">85% OFF</span> |
-                    WORTH <span class="custom-del">₹{{ formatPrice($cource->price) }}</span> NOW ONLY
-                    <span class="">₹{{ formatPrice($cource->offer_price) }}</span> |
-                    <span class="">SALE IS LIVE!</span>
-                </div>
+                </div> --}}
             </div>
         </h3>
     </section>
+    @endif
     
     @if($testimonial_screenshorts->isNotEmpty())
     <section>
@@ -573,7 +578,7 @@
                         </div>
                     
                         <div class="trust-box">
-                            🎓 1000+ Happy Students
+                            🎓 {{ get_setting('happy_students') }} Happy Students
                         </div>
                     
                     </div>

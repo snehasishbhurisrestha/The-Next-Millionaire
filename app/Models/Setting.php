@@ -35,5 +35,7 @@ class Setting extends Model implements HasMedia
         'header_script',
         'footer_script',
         'referal_bonus_amount',
+        'marquee_text',
+        'happy_students'
     ];
 }

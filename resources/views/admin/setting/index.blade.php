@@ -154,6 +154,14 @@
                                 <label>Referal Bonus Amount</label>
                                 <input type="text" name="referal_bonus_amount" class="form-control" value="{{ old('referal_bonus_amount', $setting->referal_bonus_amount ?? '') }}">
                             </div>
+                            <div class="col-md-6 mb-3">
+                                <label>Marquee Text</label>
+                                <textarea name="marquee_text" class="form-control">{{ old('marquee_text', $setting->marquee_text ?? '') }}</textarea>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label>Happy Students</label>
+                                <input type="text" name="happy_students" class="form-control" value="{{ old('happy_students', $setting->happy_students ?? '') }}">
+                            </div>
                         </div>
                     </div>
 
