@@ -139,7 +139,7 @@ class UncapturedPaymentController extends Controller
                 'course_id' => $course->id
             ],
             [
-                'amount' => $uncaptured_payment->amount,
+                'amount' => $request->amount,
                 'status' => 'paid'
             ]
         );
