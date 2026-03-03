@@ -61,6 +61,10 @@ Route::get('/',[HomeController::class,'index'])->name('home');
 //     return view('site.about');
 // })->name('about');
 
+Route::get('/landing', function () {
+    return view('site.landing');
+})->name('landing');
+
 Route::get('/terms-of-service', function () {
     return view('site.legal.terms');
 })->name('terms');
@@ -246,6 +250,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('uncaptured-payment', [UncapturedPaymentController::class,'index'])->name('admin.uncaptured-payment.index');
     Route::post('uncaptured-payment/process-payment', [UncapturedPaymentController::class,'process_payment'])->name('admin.uncaptured-payment.process_payment');
+    Route::post('uncaptured-payment/manual-process-payment', [UncapturedPaymentController::class,'manual_process_payment'])->name('admin.uncaptured-payment.manual-process_payment');
 
     Route::resource('new-updates', NewUpdateController::class);
 });

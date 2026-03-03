@@ -223,7 +223,7 @@
     .custom-del1 {
         position: relative;
         display: inline-block;
-        font-size: 24px !important;  /* ← increase from 23px to 30px */
+        font-size: 24px !important; 
     }
 
     .custom-del1::after {
@@ -234,9 +234,91 @@
         width: 100%;
         height: 3px;
         background: #ff0018;
-        transform: translateY(-50%) rotate(10deg);  /* ← also fix this line */
+        transform: translateY(-50%) rotate(10deg);  
     }
+    
+    .price-badge {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    border-radius: 14px;
+    cursor: pointer;
+    border: none;
+    background: linear-gradient(
+        90deg,
+        #FFD84D 0%,
+        #FFA903 50%,
+        #FFD84D 100%
+    );
+    box-shadow: 
+        0 0 25px rgba(255,169,3,0.7),
+        0 0 50px rgba(255,169,3,0.4);
+    background-size: 200% 200%;
+    animation: 
+        gradientShift 2s ease infinite,
+        }
 
+.price-badge:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -75%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255,255,255,0.6),
+        transparent
+    );
+    animation: shineSweep 3s ease-in-out infinite;
+    pointer-events: none; 
+    z-index: 1;
+}
+
+@keyframes shineSweep {
+    0%   { left: -75%; }
+    50%  { left: 125%; }
+    100% { left: 125%; }
+}
+
+@keyframes gradientShift {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes glowPulse {
+    0%, 100% {
+        box-shadow: 
+            0 0 10px rgba(255,169,3,0.3),
+            0 0 20px rgba(255,169,3,0.2);
+    }
+    50% {
+        box-shadow: 
+            0 0 25px rgba(255,169,3,0.7),
+            0 0 45px rgba(255,169,3,0.4),
+            0 0 70px rgba(255,169,3,0.15);
+    }
+}
+/* Hover shake */
+.price-badge:hover {
+    animation:
+        gradientShift 2s ease infinite,
+        glowPulse 1.5s ease-in-out infinite,
+        shake 0.6s ease infinite;
+}
+
+@keyframes shake {
+    0%   { transform: rotate(0deg) translateY(0); }
+    15%  { transform: rotate(-3deg) translateY(-3px); }
+    30%  { transform: rotate(3deg) translateY(-3px); }
+    45%  { transform: rotate(-3deg) translateY(-3px); }
+    60%  { transform: rotate(3deg) translateY(-3px); }
+    75%  { transform: rotate(-1deg) translateY(-2px); }
+    100% { transform: rotate(0deg) translateY(0); }
+}
+    
 </style>
 
 <style>
@@ -278,12 +360,16 @@
                                 <p style="margin-top: -10px; color: antiquewhite;font-size: 21px;">
                                     <span style="color: #f0bc4a;">Valentine Week Offer Price</span> <span class="offer">₹{{ formatPrice($cource->offer_price) }}/-</span> <span style="color: #f0bc4a;">Only</span>
                                 </p>--}}
-                                <button class="px-4  price-badge"
-                                        onclick="window.location='{{ route('registration') }}'">
-                                    <p class="mt-n5" style="color: #000;font-size: 25px;">Join Now For <span class="custom-del1">₹{{ formatPrice($cource->price) }}</span> ₹{{ formatPrice($cource->offer_price) }}</p>
-                                    <p style="color: #000;    font-size: 16px;" >(DOUBLE MONEY BACK GUARANTEE)</p>
+                                <button class="px-4 price-badge"
+                                    onclick="window.location='{{ route('registration') }}'">
+                                <span class="d-block mt-n5" style="color: #000; font-size: 25px;">
+                                    Join Now For <span class="custom-del1">₹{{ formatPrice($cource->price) }}</span> 
+                                    ₹{{ formatPrice($cource->offer_price) }}
+                                </span>
+                                <span class="d-block" style="color: #000; font-size: 16px;">
+                                    (DOUBLE MONEY BACK GUARANTEE)
+                                    </span>
                                 </button>
-                                
                                 <div class="countdown-box">
     
                                     <div class="time-box">

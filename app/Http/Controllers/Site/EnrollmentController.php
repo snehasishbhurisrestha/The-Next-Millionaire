@@ -156,7 +156,7 @@ class EnrollmentController extends Controller
         $course = Course::findOrFail($request->course_id);
         $price = $course->offer_price > 0 ? $course->offer_price : $course->price;
 
-        try {
+        // try {
 
             /*
             |-------------------------------------------------
@@ -292,27 +292,27 @@ class EnrollmentController extends Controller
                 'redirect' => route('course.learn', $course->slug),
             ]);
 
-        } catch (\Exception $e) {
+        // } catch (\Exception $e) {
 
-            DB::rollBack();
+        //     DB::rollBack();
 
-            \Log::error('Razorpay payment failed', [
-                'order_id' => $request->razorpay_order_id ?? null,
-                'payment_id' => $request->razorpay_payment_id ?? null,
-                'error' => $e->getMessage()
-            ]);
+        //     \Log::error('Razorpay payment failed', [
+        //         'order_id' => $request->razorpay_order_id ?? null,
+        //         'payment_id' => $request->razorpay_payment_id ?? null,
+        //         'error' => $e->getMessage()
+        //     ]);
 
-            $uncaptured_payment = new UncapturedPayment();
-            $uncaptured_payment->user_id = $user->id;
-            $uncaptured_payment->course_id = $course->id;
-            $uncaptured_payment->amount = $price;
-            $uncaptured_payment->save();
+        //     $uncaptured_payment = new UncapturedPayment();
+        //     $uncaptured_payment->user_id = $user->id;
+        //     $uncaptured_payment->course_id = $course->id;
+        //     $uncaptured_payment->amount = $price;
+        //     $uncaptured_payment->save();
 
-            return response()->json([
-                'success' => false,
-                'message' => 'Payment verification failed. If amount is debited, contact support.'
-            ], 500);
-        }
+        //     return response()->json([
+        //         'success' => false,
+        //         'message' => 'Payment verification failed. If amount is debited, contact support.'
+        //     ], 500);
+        // }
     }
 
 }
